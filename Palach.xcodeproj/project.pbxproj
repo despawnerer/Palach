@@ -1,0 +1,582 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		372FDCA226447AE400F33F10 /* PalachApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FDCA126447AE400F33F10 /* PalachApp.swift */; };
+		372FDCA426447AE400F33F10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FDCA326447AE400F33F10 /* ContentView.swift */; };
+		372FDCA626447AE700F33F10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 372FDCA526447AE700F33F10 /* Assets.xcassets */; };
+		372FDCA926447AE700F33F10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 372FDCA826447AE700F33F10 /* Preview Assets.xcassets */; };
+		372FDCB526447AE700F33F10 /* PalachTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FDCB426447AE700F33F10 /* PalachTests.swift */; };
+		372FDCC026447AE700F33F10 /* PalachUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FDCBF26447AE700F33F10 /* PalachUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		372FDCB126447AE700F33F10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 372FDC9626447AE400F33F10 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 372FDC9D26447AE400F33F10;
+			remoteInfo = Palach;
+		};
+		372FDCBC26447AE700F33F10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 372FDC9626447AE400F33F10 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 372FDC9D26447AE400F33F10;
+			remoteInfo = Palach;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		372FDC9E26447AE400F33F10 /* Palach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Palach.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		372FDCA126447AE400F33F10 /* PalachApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PalachApp.swift; sourceTree = "<group>"; };
+		372FDCA326447AE400F33F10 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		372FDCA526447AE700F33F10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		372FDCA826447AE700F33F10 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		372FDCAA26447AE700F33F10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		372FDCAB26447AE700F33F10 /* Palach.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Palach.entitlements; sourceTree = "<group>"; };
+		372FDCB026447AE700F33F10 /* PalachTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PalachTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		372FDCB426447AE700F33F10 /* PalachTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PalachTests.swift; sourceTree = "<group>"; };
+		372FDCB626447AE700F33F10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		372FDCBB26447AE700F33F10 /* PalachUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PalachUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		372FDCBF26447AE700F33F10 /* PalachUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PalachUITests.swift; sourceTree = "<group>"; };
+		372FDCC126447AE700F33F10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		372FDC9B26447AE400F33F10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		372FDCAD26447AE700F33F10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		372FDCB826447AE700F33F10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		372FDC9526447AE400F33F10 = {
+			isa = PBXGroup;
+			children = (
+				372FDCA026447AE400F33F10 /* Palach */,
+				372FDCB326447AE700F33F10 /* PalachTests */,
+				372FDCBE26447AE700F33F10 /* PalachUITests */,
+				372FDC9F26447AE400F33F10 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		372FDC9F26447AE400F33F10 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				372FDC9E26447AE400F33F10 /* Palach.app */,
+				372FDCB026447AE700F33F10 /* PalachTests.xctest */,
+				372FDCBB26447AE700F33F10 /* PalachUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		372FDCA026447AE400F33F10 /* Palach */ = {
+			isa = PBXGroup;
+			children = (
+				372FDCA126447AE400F33F10 /* PalachApp.swift */,
+				372FDCA326447AE400F33F10 /* ContentView.swift */,
+				372FDCA526447AE700F33F10 /* Assets.xcassets */,
+				372FDCAA26447AE700F33F10 /* Info.plist */,
+				372FDCAB26447AE700F33F10 /* Palach.entitlements */,
+				372FDCA726447AE700F33F10 /* Preview Content */,
+			);
+			path = Palach;
+			sourceTree = "<group>";
+		};
+		372FDCA726447AE700F33F10 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				372FDCA826447AE700F33F10 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		372FDCB326447AE700F33F10 /* PalachTests */ = {
+			isa = PBXGroup;
+			children = (
+				372FDCB426447AE700F33F10 /* PalachTests.swift */,
+				372FDCB626447AE700F33F10 /* Info.plist */,
+			);
+			path = PalachTests;
+			sourceTree = "<group>";
+		};
+		372FDCBE26447AE700F33F10 /* PalachUITests */ = {
+			isa = PBXGroup;
+			children = (
+				372FDCBF26447AE700F33F10 /* PalachUITests.swift */,
+				372FDCC126447AE700F33F10 /* Info.plist */,
+			);
+			path = PalachUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		372FDC9D26447AE400F33F10 /* Palach */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 372FDCC426447AE700F33F10 /* Build configuration list for PBXNativeTarget "Palach" */;
+			buildPhases = (
+				372FDC9A26447AE400F33F10 /* Sources */,
+				372FDC9B26447AE400F33F10 /* Frameworks */,
+				372FDC9C26447AE400F33F10 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Palach;
+			productName = Palach;
+			productReference = 372FDC9E26447AE400F33F10 /* Palach.app */;
+			productType = "com.apple.product-type.application";
+		};
+		372FDCAF26447AE700F33F10 /* PalachTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 372FDCC726447AE700F33F10 /* Build configuration list for PBXNativeTarget "PalachTests" */;
+			buildPhases = (
+				372FDCAC26447AE700F33F10 /* Sources */,
+				372FDCAD26447AE700F33F10 /* Frameworks */,
+				372FDCAE26447AE700F33F10 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				372FDCB226447AE700F33F10 /* PBXTargetDependency */,
+			);
+			name = PalachTests;
+			productName = PalachTests;
+			productReference = 372FDCB026447AE700F33F10 /* PalachTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		372FDCBA26447AE700F33F10 /* PalachUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 372FDCCA26447AE700F33F10 /* Build configuration list for PBXNativeTarget "PalachUITests" */;
+			buildPhases = (
+				372FDCB726447AE700F33F10 /* Sources */,
+				372FDCB826447AE700F33F10 /* Frameworks */,
+				372FDCB926447AE700F33F10 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				372FDCBD26447AE700F33F10 /* PBXTargetDependency */,
+			);
+			name = PalachUITests;
+			productName = PalachUITests;
+			productReference = 372FDCBB26447AE700F33F10 /* PalachUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		372FDC9626447AE400F33F10 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1250;
+				LastUpgradeCheck = 1250;
+				TargetAttributes = {
+					372FDC9D26447AE400F33F10 = {
+						CreatedOnToolsVersion = 12.5;
+					};
+					372FDCAF26447AE700F33F10 = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = 372FDC9D26447AE400F33F10;
+					};
+					372FDCBA26447AE700F33F10 = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = 372FDC9D26447AE400F33F10;
+					};
+				};
+			};
+			buildConfigurationList = 372FDC9926447AE400F33F10 /* Build configuration list for PBXProject "Palach" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 372FDC9526447AE400F33F10;
+			productRefGroup = 372FDC9F26447AE400F33F10 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				372FDC9D26447AE400F33F10 /* Palach */,
+				372FDCAF26447AE700F33F10 /* PalachTests */,
+				372FDCBA26447AE700F33F10 /* PalachUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		372FDC9C26447AE400F33F10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				372FDCA926447AE700F33F10 /* Preview Assets.xcassets in Resources */,
+				372FDCA626447AE700F33F10 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		372FDCAE26447AE700F33F10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		372FDCB926447AE700F33F10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		372FDC9A26447AE400F33F10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				372FDCA426447AE400F33F10 /* ContentView.swift in Sources */,
+				372FDCA226447AE400F33F10 /* PalachApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		372FDCAC26447AE700F33F10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				372FDCB526447AE700F33F10 /* PalachTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		372FDCB726447AE700F33F10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				372FDCC026447AE700F33F10 /* PalachUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		372FDCB226447AE700F33F10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 372FDC9D26447AE400F33F10 /* Palach */;
+			targetProxy = 372FDCB126447AE700F33F10 /* PBXContainerItemProxy */;
+		};
+		372FDCBD26447AE700F33F10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 372FDC9D26447AE400F33F10 /* Palach */;
+			targetProxy = 372FDCBC26447AE700F33F10 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		372FDCC226447AE700F33F10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		372FDCC326447AE700F33F10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		372FDCC526447AE700F33F10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Palach/Palach.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Palach/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Palach/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ifhy.Palach;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		372FDCC626447AE700F33F10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Palach/Palach.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Palach/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Palach/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ifhy.Palach;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		372FDCC826447AE700F33F10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = PalachTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ifhy.PalachTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Palach.app/Contents/MacOS/Palach";
+			};
+			name = Debug;
+		};
+		372FDCC926447AE700F33F10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = PalachTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ifhy.PalachTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Palach.app/Contents/MacOS/Palach";
+			};
+			name = Release;
+		};
+		372FDCCB26447AE700F33F10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = PalachUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ifhy.PalachUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Palach;
+			};
+			name = Debug;
+		};
+		372FDCCC26447AE700F33F10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = PalachUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ifhy.PalachUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Palach;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		372FDC9926447AE400F33F10 /* Build configuration list for PBXProject "Palach" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				372FDCC226447AE700F33F10 /* Debug */,
+				372FDCC326447AE700F33F10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		372FDCC426447AE700F33F10 /* Build configuration list for PBXNativeTarget "Palach" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				372FDCC526447AE700F33F10 /* Debug */,
+				372FDCC626447AE700F33F10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		372FDCC726447AE700F33F10 /* Build configuration list for PBXNativeTarget "PalachTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				372FDCC826447AE700F33F10 /* Debug */,
+				372FDCC926447AE700F33F10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		372FDCCA26447AE700F33F10 /* Build configuration list for PBXNativeTarget "PalachUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				372FDCCB26447AE700F33F10 /* Debug */,
+				372FDCCC26447AE700F33F10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 372FDC9626447AE400F33F10 /* Project object */;
+}
