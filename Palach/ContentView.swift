@@ -13,7 +13,7 @@ struct ContentView: View {
         HSplitView {
             CodeView(
                 code: $sourceCode,
-                mode: $selectedLanguage.wrappedValue.codeMode.mode(),
+                mode: selectedLanguage.codeMode.mode(),
                 showInvisibleCharacters: false
             )
             .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
@@ -27,7 +27,7 @@ struct ContentView: View {
                         }
                     }
                 } label: {
-                    Text($selectedLanguage.wrappedValue.name)
+                    Text(selectedLanguage.name)
                 }
                 
                 if self.selectedLanguageHasExecutors() {
@@ -40,7 +40,7 @@ struct ContentView: View {
                             }
                         }
                     } label: {
-                        Text($selectedExecutor.wrappedValue!.name)
+                        Text(selectedExecutor!.name)
                     }
                 } else if self.isLoadingExecutors {
                     ProgressView().scaleEffect(0.5)
