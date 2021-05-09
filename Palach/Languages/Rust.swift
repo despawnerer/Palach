@@ -45,15 +45,11 @@ class RustExecutor: Executor {
 
     init(toolchain: String) {
         self.name = toolchain
-        self.binary = Rust.RUSTUP
+        self.binary = "/bin/sh"
     }
     
     func argumentsToRun(filename: String) -> [String] {
-        /* FIXME:
-         This doesn't actually work:
-         - We also need to run the resulting binary
-         - Rustc actually doesn't have rights to write into the temp directory for some reason
-         */
-        return ["run", self.name, "rustc", filename]
+        /* FIXME: Lol, running things through /bin/sh is bad and I should feel bad */
+        return ["-c", Rust.RUSTUP + " run " + self.name + " rustc " + filename + " && " + filename.dropLast(3)]
     }
 }

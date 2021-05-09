@@ -4,7 +4,7 @@ import CodeMirror_SwiftUI
 struct LanguagesRegistry {
     static let languages: [Language] = [
         Java(),
-//        Rust(),
+        Rust(),
     ]
 }
 

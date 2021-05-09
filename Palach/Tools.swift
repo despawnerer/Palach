@@ -1,8 +1,7 @@
 import Foundation
 
 func writeTemporaryFile(ext: String, data: Data) -> String {
-    let temporaryDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(),
-                                        isDirectory: true)
+    let temporaryDirectoryURL = FileManager.default.temporaryDirectory
     let temporaryFilename = UUID().uuidString + "." + ext
     let temporaryFileURL =
         temporaryDirectoryURL.appendingPathComponent(temporaryFilename)
@@ -20,6 +19,7 @@ func launch(tool: String, arguments: [String], completionHandler: @escaping (Int
 
     group.enter()
     let proc = Process()
+    proc.currentDirectoryURL = FileManager.default.temporaryDirectory
     proc.executableURL = URL(fileURLWithPath: tool)
     proc.arguments = arguments
     proc.standardOutput = pipe.fileHandleForWriting
