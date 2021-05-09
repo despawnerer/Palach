@@ -21,6 +21,7 @@ protocol Language {
     var ext: String { get }
     var codeMode: CodeMode { get }
 
+    var defaultExecutor: Executor? { get }
     var executors: [Executor]? { get }
     func detectExecutors(completionHandler: @escaping ([Executor]) -> Void) throws
 }

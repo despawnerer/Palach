@@ -13,6 +13,7 @@ class Java: Language {
     }
     """
 
+    var defaultExecutor: Executor?
     var executors: [Executor]?
     
     func detectExecutors(completionHandler: @escaping ([Executor]) -> Void) throws {
@@ -23,6 +24,7 @@ class Java: Language {
             let executors = try? decoder.decode([JVM].self, from: stdout)
                 .filter(\.JVMEnabled)
                 .map { JavaExecutor(jvm: $0) }
+            self.defaultExecutor = executors?.last
             self.executors = executors
             completionHandler(self.executors!) /* FIXME: Lol, probably a bad idea to just unwrap like that */
         }

@@ -107,7 +107,7 @@ struct ContentView: View {
     
     private func afterLanguageChanged(previous: Language) {
         self.isLoadingExecutors = false
-        selectExecutor(executor: selectedLanguage.executors?.last)
+        selectExecutor(executor: selectedLanguage.defaultExecutor)
     }
     
     private func selectExecutor(executor: Executor?) {

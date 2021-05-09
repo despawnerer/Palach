@@ -22,11 +22,11 @@ class Rust: Language {
     }
     """
 
+    var defaultExecutor: Executor?
     var executors: [Executor]?
 
     func detectExecutors(completionHandler: @escaping ([Executor]) -> Void) throws {
         try launch(tool: Rust.RUSTUP, arguments: ["toolchain", "list"]) { (status, stdout) in
-            print(String(decoding: stdout, as: UTF8.self))
             let executors = String(decoding: stdout, as: UTF8.self)
                 .components(separatedBy: "\n")
                 .filter { $0.count > 0 }
@@ -34,6 +34,7 @@ class Rust: Language {
                 .map { RustExecutor(toolchain: $0) }
             
             self.executors = executors
+            self.defaultExecutor = executors.first
             completionHandler(executors)
         }
     }
