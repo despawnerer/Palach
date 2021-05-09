@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "CodeMirror-SwiftUI",
+        "repositoryURL": "https://github.com/Pictarine/CodeMirror-SwiftUI",
+        "state": {
+          "branch": null,
+          "revision": "91eb30d2ea54c136de2540cacaeb95b9ab5de8e0",
+          "version": "0.1.6"
+        }
+      },
+      {
+        "package": "SwiftTerm",
+        "repositoryURL": "https://github.com/migueldeicaza/SwiftTerm",
+        "state": {
+          "branch": null,
+          "revision": "70a3af884c24dff9f1beeda04e889b5591f04f3c",
+          "version": "1.0.7"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
