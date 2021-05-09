@@ -18,7 +18,7 @@ class Rust: Language {
     let codeMode = CodeMode.rust
     let snippet = """
     fn main() {
-        println!("Hello, world!");
+        println!("Hello, Rust!");
     }
     """
 
@@ -34,7 +34,7 @@ class Rust: Language {
                 .map { RustExecutor(toolchain: $0) }
             
             self.executors = executors
-            self.defaultExecutor = executors.first
+            self.defaultExecutor = executors.first  /* FIXME: Use the one that's actually marked as default svp. */
             completionHandler(executors)
         }
     }
