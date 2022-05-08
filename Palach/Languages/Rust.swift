@@ -1,5 +1,5 @@
 import Foundation
-import CodeMirror_SwiftUI
+import CodeEditor
 
 class Rust: Language {
     /*
@@ -13,44 +13,71 @@ class Rust: Language {
         .appendingPathComponent("rustup")
         .path
     
+    static let defaultEdition: RustEdition = .e2018
+    static let defaultMode: RustMode = .release
+    
     let name = "Rust"
     let ext = "rs"
-    let codeMode = CodeMode.rust
+    let codeEditorLanguage = CodeEditor.Language.rust
     let snippet = """
     fn main() {
         println!("Hello, Rust!");
     }
     """
-
-    var defaultExecutor: Executor?
-    var executors: [Executor]?
-
-    func detectExecutors(completionHandler: @escaping ([Executor]) -> Void) throws {
-        try launch(tool: Rust.RUSTUP, arguments: ["toolchain", "list"]) { (status, stdout) in
-            let executors = String(decoding: stdout, as: UTF8.self)
+    
+    var status: RustStatus = .uninitialized
+    
+    func maybeInitialize(completionHandler: @escaping () -> Void) throws {
+        guard case .uninitialized = self.status else {
+            completionHandler()
+            return
+        }
+        
+        try! detectToolchains(completionHandler: completionHandler)
+    }
+    
+    func detectToolchains(completionHandler: @escaping () -> Void) throws {
+        try launch(tool: Rust.RUSTUP, arguments: ["toolchain", "list"]) { (status, output) in
+            let toolchains = String(decoding: output, as: UTF8.self)
                 .components(separatedBy: "\n")
                 .filter { $0.count > 0 }
                 .map { $0.components(separatedBy: " ")[0] }
-                .map { RustExecutor(toolchain: $0) }
+                .map { RustToolchain(name: $0) }
             
-            self.executors = executors
-            self.defaultExecutor = executors.first  /* FIXME: Use the one that's actually marked as default svp. */
-            completionHandler(executors)
+            if toolchains.isEmpty {
+                self.status = .unavailable
+            } else {
+                self.status = .available(toolchains)
+            }
+            
+            completionHandler()
         }
     }
 }
 
-class RustExecutor: Executor {
-    let name: String
-    let binary: String
+enum RustStatus {
+    case uninitialized
+    case unavailable
+    case available([RustToolchain])
+}
 
-    init(toolchain: String) {
-        self.name = toolchain
-        self.binary = "/bin/sh"
-    }
+enum RustMode: String, CaseIterable, Identifiable {
+    case release = "Release"
+    case debug = "Debug"
     
-    func argumentsToRun(filename: String) -> [String] {
-        /* FIXME: Lol, running things through /bin/sh is bad and I should feel bad */
-        return ["-c", Rust.RUSTUP + " run " + self.name + " rustc " + filename + " && " + filename.dropLast(3)]
-    }
+    var id: String { self.rawValue }
+}
+
+enum RustEdition: String, CaseIterable, Identifiable {
+    case e2015 = "2015"
+    case e2018 = "2018"
+    case e2021 = "2021"
+    
+    var id: String { self.rawValue }
+}
+
+struct RustToolchain: Hashable, Identifiable {
+    let name: String
+    
+    var id: String { name }
 }

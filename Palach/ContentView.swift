@@ -1,20 +1,18 @@
 import SwiftUI
-import SwiftTerm
-import CodeMirror_SwiftUI
+import CodeEditor
 
 struct ContentView: View {
     @State private var selectedLanguage = LanguagesRegistry.languages.first!;
-    @State private var isLoadingExecutors = false;
-    @State private var selectedExecutor: Executor?;
-    @State private var sourceCode = "";
-    @State private var output = "Program output will be here, stdin and stderr";
-    
+    @State private var code = "";
+
     var body: some View {
         HSplitView {
-            CodeView(
-                code: $sourceCode,
-                mode: selectedLanguage.codeMode.mode(),
-                showInvisibleCharacters: false
+            CodeEditor(
+                source: $code,
+                language: .swift,
+                theme: .atelierSavannaDark,
+                flags: [ .selectable, .editable, .smartIndent ],
+                indentStyle: .softTab(width: 4)
             )
             .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
             .toolbar {
@@ -29,89 +27,24 @@ struct ContentView: View {
                 } label: {
                     Text(selectedLanguage.name)
                 }
-                
-                if self.selectedLanguageHasExecutors() {
-                    Menu {
-                        ForEach(self.selectedLanguage.executors!, id: \.self.name) { executor in
-                            Button(action: {
-                                selectExecutor(executor: executor)
-                            }) {
-                                Text(executor.name)
-                            }
-                        }
-                    } label: {
-                        Text(selectedExecutor!.name)
-                    }
-                } else if self.isLoadingExecutors {
-                    ProgressView().scaleEffect(0.5)
-                } else {
-                    Text("Not installed")
-                }
-                
-                Button(action: {
-                    run()
-                }, label: {
-                    Image(systemName: "play.fill")
-                }).disabled(!selectedLanguageHasExecutors())
             }
             
-            TextEditor(text: $output)
-                .font(.system(.body, design: .monospaced))
-                .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
+            if let rust = selectedLanguage as? Rust {
+                RustExecutionView(rust: rust, code: $code)
+                    .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
+            } else if let java = selectedLanguage as? Java {
+                JavaExecutionView(java: java)
+                    .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
+            }
         }
         .onAppear {
             selectLanguage(language: self.selectedLanguage)
         }
     }
-    
-    private func run() {
-        let executor = self.selectedExecutor!
-        let filename = writeTemporaryFile(
-            ext: self.selectedLanguage.ext,
-            data: self.sourceCode.data(using: .utf8)!
-        )
 
-        try! launch(
-            tool: executor.binary,
-            arguments: executor.argumentsToRun(filename: filename)
-        ) { (status, data) in
-            print(status)
-            print(data)
-            self.output = String(decoding: data, as: UTF8.self) + "\n" + "Terminated with status " + String(status)
-        }
-    }
-    
-    private func selectedLanguageHasExecutors() -> Bool {
-        return self.selectedLanguage.executors?.count ?? 0 > 0
-    }
-    
     private func selectLanguage(language: Language) {
-        print("selecting " + language.name)
-        let previousLanguage = self.selectedLanguage
-
         self.selectedLanguage = language
-        self.sourceCode = language.snippet
-        
-        if language.executors == nil {
-            self.isLoadingExecutors = true
-            try! language.detectExecutors { _ in
-                print("detected executors for " + language.name)
-                if language.name == self.selectedLanguage.name {
-                    afterLanguageChanged(previous: previousLanguage)
-                }
-            }
-        } else {
-            afterLanguageChanged(previous: previousLanguage)
-        }
-    }
-    
-    private func afterLanguageChanged(previous: Language) {
-        self.isLoadingExecutors = false
-        selectExecutor(executor: selectedLanguage.defaultExecutor)
-    }
-    
-    private func selectExecutor(executor: Executor?) {
-        self.selectedExecutor = executor
+        self.code = language.snippet
     }
 }
 

@@ -1,48 +1,49 @@
 import Foundation
-import CodeMirror_SwiftUI
+import CodeEditor
 
 class Java: Language {
     let name = "Java"
     let ext = "java"
-    let codeMode = CodeMode.java
+    let codeEditorLanguage = CodeEditor.Language.java
     let snippet = """
     class Playground {
-        public static void main(String[ ] args) {
+        public static void main(String[] args) {
             System.out.println("Hello Java");
         }
     }
     """
-
-    var defaultExecutor: Executor?
-    var executors: [Executor]?
     
-    func detectExecutors(completionHandler: @escaping ([Executor]) -> Void) throws {
+    var status: JavaStatus = .uninitialized
+    
+    func detectJVMs(completionHandler: @escaping () -> Void) throws {
         let decoder = PropertyListDecoder();
-        try launch(tool: "/usr/libexec/java_home", arguments: ["-X"]) { (status, stdout) in
+        
+        try launch(tool: "/usr/libexec/java_home", arguments: ["-X"]) { (status, output) in
             /* FIXME: what happens if the command fails? */
             /* FIXME: also, what happens if there aren't any javas around? */
-            let executors = try? decoder.decode([JVM].self, from: stdout)
+            let jvms = try? decoder.decode([JVM].self, from: output)
                 .filter(\.JVMEnabled)
-                .map { JavaExecutor(jvm: $0) }
-            self.defaultExecutor = executors?.last
-            self.executors = executors
-            completionHandler(self.executors!) /* FIXME: Lol, probably a bad idea to just unwrap like that */
+            
+            if jvms?.isEmpty ?? true {
+                self.status = .unavailable
+            } else {
+                self.status = .available(jvms!)
+            }
+            
+            completionHandler()
         }
+    }
+    
+    private func detectClassName(source: String) -> String {
+        // FIXME
+        return ""
     }
 }
 
-class JavaExecutor: Executor {
-    let name: String
-    let binary: String
-
-    init(jvm: JVM) {
-        self.name = jvm.JVMName
-        self.binary = jvm.JVMHomePath + "/bin/java" /* FIXME: Concatenating strings to do paths is bad and I should feel bad */
-    }
-    
-    func argumentsToRun(filename: String) -> [String] {
-        return [filename]
-    }
+enum JavaStatus {
+    case uninitialized
+    case unavailable
+    case available([JVM])
 }
 
 struct JVM: Codable {
