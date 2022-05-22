@@ -1,5 +1,5 @@
-import Foundation
 import CodeEditor
+import Foundation
 
 class Java: Language {
     let name = "Java"
@@ -12,30 +12,30 @@ class Java: Language {
         }
     }
     """
-    
+
     var status: JavaStatus = .uninitialized
-    
+
     func detectJVMs(completionHandler: @escaping () -> Void) throws {
-        let decoder = PropertyListDecoder();
-        
-        try launch(tool: "/usr/libexec/java_home", arguments: ["-X"]) { (status, output) in
+        let decoder = PropertyListDecoder()
+
+        try launch(tool: "/usr/libexec/java_home", arguments: ["-X"]) { _, output in
             /* FIXME: what happens if the command fails? */
             /* FIXME: also, what happens if there aren't any javas around? */
             let jvms = try? decoder.decode([JVM].self, from: output)
                 .filter(\.JVMEnabled)
-            
+
             if jvms?.isEmpty ?? true {
                 self.status = .unavailable
             } else {
                 self.status = .available(jvms!)
             }
-            
+
             completionHandler()
         }
     }
-    
-    private func detectClassName(source: String) -> String {
-        // FIXME
+
+    private func detectClassName(source _: String) -> String {
+        // FIXME:
         return ""
     }
 }

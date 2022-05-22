@@ -1,5 +1,5 @@
-import Foundation
 import CodeEditor
+import Foundation
 import SwiftUI
 
 struct LanguagesRegistry {

@@ -4,78 +4,72 @@ import SwiftTerm
 public protocol CustomLocalProcessTerminalViewDelegate {
     func sizeChanged(source: CustomLocalProcessTerminalView, newCols: Int, newRows: Int)
     func setTerminalTitle(source: CustomLocalProcessTerminalView, title: String)
-    func hostCurrentDirectoryUpdate (source: TerminalView, directory: String?)
-    func processTerminated (source: TerminalView, exitCode: Int32?)
+    func hostCurrentDirectoryUpdate(source: TerminalView, directory: String?)
+    func processTerminated(source: TerminalView, exitCode: Int32?)
 }
 
 public class CustomLocalProcessTerminalView: TerminalView, TerminalViewDelegate, CustomLocalProcessDelegate {
     var process: CustomLocalProcess!
-    
-    public override init (frame: CGRect)
-    {
-        super.init (frame: frame)
-        setup ()
-    }
-    
-    public required init? (coder: NSCoder)
-    {
-        super.init (coder: coder)
-        setup ()
+
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
     }
 
-    func setup ()
-    {
-        terminalDelegate = self
-        process = CustomLocalProcess (delegate: self)
+    public required init? (coder: NSCoder) {
+        super.init(coder: coder)
+        setup()
     }
-    
+
+    func setup() {
+        terminalDelegate = self
+        process = CustomLocalProcess(delegate: self)
+    }
+
     /**
      * The `processDelegate` is used to deliver messages and information relevant t
      */
     public var processDelegate: CustomLocalProcessTerminalViewDelegate?
-    
+
     /**
      * This method is invoked to notify the client of the new columsn and rows that have been set by the UI
      */
-    public func sizeChanged(source: TerminalView, newCols: Int, newRows: Int) {
+    public func sizeChanged(source _: TerminalView, newCols: Int, newRows: Int) {
         guard process.running else {
             return
         }
         var size = getWindowSize()
-        let _ = PseudoTerminalHelpers.setWinSize(masterPtyDescriptor: process.childfd, windowSize: &size)
-        
-        processDelegate?.sizeChanged (source: self, newCols: newCols, newRows: newRows)
+        _ = PseudoTerminalHelpers.setWinSize(masterPtyDescriptor: process.childfd, windowSize: &size)
+
+        processDelegate?.sizeChanged(source: self, newCols: newCols, newRows: newRows)
     }
-    
+
     /**
      * Invoke this method to notify the processDelegate of the new title for the terminal window
      */
-    public func setTerminalTitle(source: TerminalView, title: String) {
-        processDelegate?.setTerminalTitle (source: self, title: title)
+    public func setTerminalTitle(source _: TerminalView, title: String) {
+        processDelegate?.setTerminalTitle(source: self, title: title)
     }
 
     public func hostCurrentDirectoryUpdate(source: TerminalView, directory: String?) {
         processDelegate?.hostCurrentDirectoryUpdate(source: source, directory: directory)
     }
-    
 
     /**
      * This method is invoked when input from the user needs to be sent to the client
      */
-    public func send(source: TerminalView, data: ArraySlice<UInt8>)
-    {
-        process.send (data: data)
+    public func send(source _: TerminalView, data: ArraySlice<UInt8>) {
+        process.send(data: data)
     }
-    
+
     /**
      * Use this method to toggle the logging of data coming from the host, or pass nil to stop
      */
-    public func setHostLogging (directory: String?)
-    {
-        process.setHostLogging (directory: directory)
+    public func setHostLogging(directory: String?) {
+        process.setHostLogging(directory: directory)
     }
-    
-    public func scrolled(source: TerminalView, position: Double) {
+
+    public func scrolled(source _: TerminalView, position _: Double) {
         // noting
     }
 
@@ -90,32 +84,30 @@ public class CustomLocalProcessTerminalView: TerminalView, TerminalViewDelegate,
     {
         process.startProcess(executable: executable, args: args, environment: environment, execName: execName)
     }
-    
+
     public func terminateProcess(signal: Int32) {
         process.kill(signal: signal)
     }
-    
+
     /**
      * Implements the LocalProcessDelegate method.
      */
-    public func processTerminated(_ source: CustomLocalProcess, exitCode: Int32?) {
+    public func processTerminated(_: CustomLocalProcess, exitCode: Int32?) {
         processDelegate?.processTerminated(source: self, exitCode: exitCode)
     }
-    
+
     /**
      * Implements the LocalProcessDelegate.dataReceived method
      */
     public func dataReceived(slice: ArraySlice<UInt8>) {
-        feed (byteArray: slice)
+        feed(byteArray: slice)
     }
-    
+
     /**
      * Implements the LocalProcessDelegate.getWindowSize method
      */
-    public func getWindowSize () -> winsize
-    {
-        let f: CGRect = self.frame
-        return winsize(ws_row: UInt16(getTerminal().rows), ws_col: UInt16(getTerminal().cols), ws_xpixel: UInt16 (f.width), ws_ypixel: UInt16 (f.height))
+    public func getWindowSize() -> winsize {
+        let f: CGRect = frame
+        return winsize(ws_row: UInt16(getTerminal().rows), ws_col: UInt16(getTerminal().cols), ws_xpixel: UInt16(f.width), ws_ypixel: UInt16(f.height))
     }
-    
 }

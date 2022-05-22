@@ -1,9 +1,9 @@
-import SwiftUI
 import CodeEditor
+import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedLanguage = LanguagesRegistry.languages.first!;
-    @State private var code = "";
+    @State private var selectedLanguage = LanguagesRegistry.languages.first!
+    @State private var code = ""
 
     var body: some View {
         HSplitView {
@@ -11,7 +11,7 @@ struct ContentView: View {
                 source: $code,
                 language: .swift,
                 theme: .atelierSavannaDark,
-                flags: [ .selectable, .editable, .smartIndent ],
+                flags: [.selectable, .editable, .smartIndent],
                 indentStyle: .softTab(width: 4)
             )
             .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
@@ -28,7 +28,7 @@ struct ContentView: View {
                     Text(selectedLanguage.name)
                 }
             }
-            
+
             if let rust = selectedLanguage as? Rust {
                 RustExecutionView(rust: rust, code: $code)
                     .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
@@ -43,8 +43,8 @@ struct ContentView: View {
     }
 
     private func selectLanguage(language: Language) {
-        self.selectedLanguage = language
-        self.code = language.snippet
+        selectedLanguage = language
+        code = language.snippet
     }
 }
 

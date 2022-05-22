@@ -5,10 +5,10 @@ func writeTemporaryFile(ext: String, data: Data) -> String {
     let temporaryFilename = UUID().uuidString + "." + ext
     let temporaryFileURL =
         temporaryDirectoryURL.appendingPathComponent(temporaryFilename)
-    
+
     try! data.write(to: temporaryFileURL,
-                   options: .atomic)
-    
+                    options: .atomic)
+
     return temporaryFileURL.path
 }
 
