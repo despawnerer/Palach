@@ -40,7 +40,13 @@ class SwiftUITerminalViewController: NSViewController {
     }
 
     func action(_ action: TerminalAction) {
-        print("\(action)")
+        switch action {
+        case let .startProcess(executable, args, environment, execName):
+
+            terminalView!.startProcess(executable: executable, args: args, environment: environment, execName: execName)
+        case let .terminate(signal):
+            terminalView!.terminateProcess(signal: signal)
+        }
     }
 }
 

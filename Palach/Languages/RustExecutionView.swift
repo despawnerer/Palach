@@ -39,6 +39,10 @@ struct RustExecutionView: View {
                         terminalLink.startProcess(executable: "/bin/bash")
                     }, label: { Image(systemName: "play.fill") })
 
+                    Button(action: {
+                        terminalLink.terminate(signal: Darwin.SIGKILL)
+                    }, label: { Image(systemName: "stop.fill") })
+
                     Spacer()
 
                     Picker("", selection: $toolchain) {
