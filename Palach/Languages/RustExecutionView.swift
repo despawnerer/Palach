@@ -8,6 +8,8 @@ struct RustExecutionView: View {
     @State private var toolchain: RustToolchain?
     @State private var edition: RustEdition = Rust.defaultEdition
     @State private var mode: RustMode = Rust.defaultMode
+    
+    @ObservedObject var terminalLink = TerminalLink()
 
     var body: some View {
         switch status {
@@ -26,7 +28,7 @@ struct RustExecutionView: View {
         case .unavailable:
             Text("Rust is unavailable")
         case .available(let toolchains):
-            SwiftUITerminalView()
+            SwiftUITerminalView(terminalLink: terminalLink)
                 .toolbar {
                     Button(action: {
                         let filename = writeTemporaryFile(
@@ -34,9 +36,11 @@ struct RustExecutionView: View {
                             data: self.code.wrappedValue.data(using: .utf8)!
                         )
                         
-                        
+                        terminalLink.startProcess(executable: "/bin/bash")
                     }, label: { Image(systemName: "play.fill") })
                     
+                    Spacer()
+
                     Picker("", selection: $toolchain) {
                         ForEach(toolchains) { toolchain in
                             Text(toolchain.name).tag(toolchain as RustToolchain?)

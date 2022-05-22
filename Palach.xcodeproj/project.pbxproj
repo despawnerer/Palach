@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3706E9542827F971006815FD /* CodeEditor in Frameworks */ = {isa = PBXBuildFile; productRef = 3706E9532827F971006815FD /* CodeEditor */; };
+		3706E95928325C08006815FD /* CustomLocalProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3706E95828325C08006815FD /* CustomLocalProcess.swift */; };
+		3706E95B28325DCE006815FD /* CustomLocalProcessTerminalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3706E95A28325DCE006815FD /* CustomLocalProcessTerminalView.swift */; };
 		372FDCA226447AE400F33F10 /* PalachApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FDCA126447AE400F33F10 /* PalachApp.swift */; };
 		372FDCA426447AE400F33F10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FDCA326447AE400F33F10 /* ContentView.swift */; };
 		372FDCA626447AE700F33F10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 372FDCA526447AE700F33F10 /* Assets.xcassets */; };
@@ -55,6 +57,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3706E95828325C08006815FD /* CustomLocalProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLocalProcess.swift; sourceTree = "<group>"; };
+		3706E95A28325DCE006815FD /* CustomLocalProcessTerminalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLocalProcessTerminalView.swift; sourceTree = "<group>"; };
 		372FDC9E26447AE400F33F10 /* Palach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Palach.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		372FDCA126447AE400F33F10 /* PalachApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PalachApp.swift; sourceTree = "<group>"; };
 		372FDCA326447AE400F33F10 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -104,6 +108,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3706E95528325802006815FD /* Terminal */ = {
+			isa = PBXGroup;
+			children = (
+				37EF4ED226486B9C005CDADE /* SwiftUITerminal.swift */,
+				3706E95828325C08006815FD /* CustomLocalProcess.swift */,
+				3706E95A28325DCE006815FD /* CustomLocalProcessTerminalView.swift */,
+			);
+			path = Terminal;
+			sourceTree = "<group>";
+		};
 		372FDC9526447AE400F33F10 = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +141,7 @@
 		372FDCA026447AE400F33F10 /* Palach */ = {
 			isa = PBXGroup;
 			children = (
+				3706E95528325802006815FD /* Terminal */,
 				37D281F7264539B200AD4C7B /* Languages */,
 				372FDCA126447AE400F33F10 /* PalachApp.swift */,
 				372FDCA326447AE400F33F10 /* ContentView.swift */,
@@ -136,7 +151,6 @@
 				372FDCA726447AE700F33F10 /* Preview Content */,
 				372FDCCD26447B7900F33F10 /* Languages.swift */,
 				37D281F52645396000AD4C7B /* Tools.swift */,
-				37EF4ED226486B9C005CDADE /* SwiftUITerminal.swift */,
 			);
 			path = Palach;
 			sourceTree = "<group>";
@@ -320,6 +334,8 @@
 				372FDCCE26447B7900F33F10 /* Languages.swift in Sources */,
 				37EF4ED326486B9C005CDADE /* SwiftUITerminal.swift in Sources */,
 				372FDCA426447AE400F33F10 /* ContentView.swift in Sources */,
+				3706E95B28325DCE006815FD /* CustomLocalProcessTerminalView.swift in Sources */,
+				3706E95928325C08006815FD /* CustomLocalProcess.swift in Sources */,
 				37EF4ED726593868005CDADE /* JavaExecutionView.swift in Sources */,
 				372FDCA226447AE400F33F10 /* PalachApp.swift in Sources */,
 				37D281F62645396000AD4C7B /* Tools.swift in Sources */,
