@@ -20,7 +20,6 @@ struct RustExecutionView: View {
                     self.status = rust.status
 
                     if case let .available(toolchains) = self.status {
-                        print("Selecting first toolchain")
                         self.toolchain = toolchains.first
                     }
                 }
@@ -36,7 +35,25 @@ struct RustExecutionView: View {
                             data: self.code.wrappedValue.data(using: .utf8)!
                         )
 
-                        terminalLink.startProcess(executable: "/bin/bash")
+                        let args = [
+                            "-c",
+                            "cd \(FileManager.default.temporaryDirectory.path) && \(Rust.RUSTUP) run \(toolchain!.name) rustc \(filename) && \(filename.dropLast(3))",
+                        ]
+
+                        var l: [String] = []
+                        l.append("LANG=en_US.UTF-8")
+                        let env = ProcessInfo.processInfo.environment
+                        for x in ["LOGNAME", "USER", "DISPLAY", "LC_TYPE", "USER", "HOME", "PATH"] {
+                            if env.keys.contains(x) {
+                                l.append("\(x)=\(env[x]!)")
+                            }
+                        }
+
+                        terminalLink.startProcess(
+                            executable: "/bin/sh",
+                            args: args,
+                            environment: l
+                        )
                     }, label: { Image(systemName: "play.fill") })
 
                     Button(action: {

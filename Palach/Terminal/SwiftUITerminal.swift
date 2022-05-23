@@ -42,7 +42,7 @@ class SwiftUITerminalViewController: NSViewController {
     func action(_ action: TerminalAction) {
         switch action {
         case let .startProcess(executable, args, environment, execName):
-
+            /* TODO: figure out how to clear the terminal? is there a built-in thing in SwiftTerm or do I need to build it? */
             terminalView!.startProcess(executable: executable, args: args, environment: environment, execName: execName)
         case let .terminate(signal):
             terminalView!.terminateProcess(signal: signal)
