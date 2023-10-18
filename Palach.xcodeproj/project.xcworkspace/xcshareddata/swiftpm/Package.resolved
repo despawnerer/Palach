@@ -1,21 +1,57 @@
 {
   "pins" : [
     {
-      "identity" : "codeeditor",
+      "identity" : "mainoffender",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ZeeZide/CodeEditor.git",
+      "location" : "https://github.com/mattmassicotte/MainOffender",
       "state" : {
-        "revision" : "03ac74486c5076ea45f4c5d2c6e5611649715db2",
-        "version" : "1.2.1"
+        "revision" : "343cc3797618c29b48b037b4e2beea0664e75315",
+        "version" : "0.1.0"
       }
     },
     {
-      "identity" : "highlightr",
+      "identity" : "neon",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/raspu/Highlightr",
+      "location" : "https://github.com/ChimeHQ/Neon.git",
       "state" : {
-        "revision" : "93199b9e434f04bda956a613af8f571933f9f037",
-        "version" : "2.1.2"
+        "revision" : "4bc0fe43c46e2c08cf522d5db86666086b6e641e",
+        "version" : "0.5.1"
+      }
+    },
+    {
+      "identity" : "rearrange",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/Rearrange",
+      "state" : {
+        "revision" : "0fb658e721c68495f6340c211cc6d4719e6b52d8",
+        "version" : "1.6.0"
+      }
+    },
+    {
+      "identity" : "sttextview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzyzanowskim/STTextView.git",
+      "state" : {
+        "revision" : "523363516b06e92dddfc2e1d5e73aa2920758b35",
+        "version" : "0.8.19"
+      }
+    },
+    {
+      "identity" : "sttextview-plugin-neon",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzyzanowskim/STTextView-Plugin-Neon",
+      "state" : {
+        "revision" : "19cb92ce4cd74e1519e981974c5c49572bfc32d4",
+        "version" : "0.0.6"
+      }
+    },
+    {
+      "identity" : "sttextview-plugin-textformation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/STTextView-Plugin-TextFormation",
+      "state" : {
+        "branch" : "main",
+        "revision" : "c92768db2c0201b38b13dc6a23cac760a3156d46"
       }
     },
     {
@@ -23,8 +59,44 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/migueldeicaza/SwiftTerm",
       "state" : {
-        "revision" : "70a3af884c24dff9f1beeda04e889b5591f04f3c",
-        "version" : "1.0.7"
+        "revision" : "e2b431dbf73f775fb4807a33e4572ffd3dc6933a",
+        "version" : "1.2.5"
+      }
+    },
+    {
+      "identity" : "swifttreesitter",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/SwiftTreeSitter",
+      "state" : {
+        "revision" : "a9b1335d5151b62b11f07599bd07d07dc5965de3",
+        "version" : "0.7.2"
+      }
+    },
+    {
+      "identity" : "textformation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/TextFormation",
+      "state" : {
+        "revision" : "b4987856bc860643ac2c9cdbc7d5f3e9ade68377",
+        "version" : "0.8.1"
+      }
+    },
+    {
+      "identity" : "textstory",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/TextStory",
+      "state" : {
+        "revision" : "8883fa739aa213e70e6cb109bfbf0a0b551e4cb5",
+        "version" : "0.8.0"
+      }
+    },
+    {
+      "identity" : "tree-sitter-xcframework",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzyzanowskim/tree-sitter-xcframework",
+      "state" : {
+        "revision" : "474d2ce3ce210be3ab30ff8f00ea564b4cd42a15",
+        "version" : "0.208.4"
       }
     }
   ],

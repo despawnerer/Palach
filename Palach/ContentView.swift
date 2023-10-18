@@ -1,20 +1,13 @@
-import CodeEditor
 import SwiftUI
 
 struct ContentView: View {
     @State private var selectedLanguage = LanguagesRegistry.languages.first!
-    @State private var code = ""
+    @State private var code: AttributedString = ""
 
     var body: some View {
         HSplitView {
-            CodeEditor(
-                source: $code,
-                language: .swift,
-                theme: .atelierSavannaDark,
-                flags: [.selectable, .editable, .smartIndent],
-                indentStyle: .softTab(width: 4)
-            )
-            .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
+            CodeEditorView(text: $code)
+                .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
             .toolbar {
                 Menu {
                     ForEach(LanguagesRegistry.languages, id: \.self.name) { language in
@@ -31,10 +24,10 @@ struct ContentView: View {
 
             if let rust = selectedLanguage as? Rust {
                 RustExecutionView(rust: rust, code: $code)
-                    .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
+                    .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
             } else if let java = selectedLanguage as? Java {
                 JavaExecutionView(java: java)
-                    .frame(minWidth: 300, maxWidth: .infinity, maxHeight: .infinity)
+                    .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
             }
         }
         .onAppear {
@@ -44,7 +37,7 @@ struct ContentView: View {
 
     private func selectLanguage(language: Language) {
         selectedLanguage = language
-        code = language.snippet
+        code = AttributedString(language.snippet)
     }
 }
 

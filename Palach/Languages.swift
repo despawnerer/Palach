@@ -1,4 +1,3 @@
-import CodeEditor
 import Foundation
 import SwiftUI
 
@@ -13,5 +12,5 @@ protocol Language {
     var name: String { get }
     var snippet: String { get }
     var ext: String { get }
-    var codeEditorLanguage: CodeEditor.Language { get }
+//    var codeEditorLanguage: CodeLanguage { get }
 }

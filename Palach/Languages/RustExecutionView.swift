@@ -2,7 +2,7 @@ import SwiftUI
 
 struct RustExecutionView: View {
     private let rust: Rust
-    private let code: Binding<String>
+    private let code: Binding<AttributedString>
 
     @State private var status: RustStatus = .uninitialized
     @State private var toolchain: RustToolchain?
@@ -27,66 +27,77 @@ struct RustExecutionView: View {
         case .unavailable:
             Text("Rust is unavailable")
         case let .available(toolchains):
-            SwiftUITerminalView(terminalLink: terminalLink)
+            SwiftUITerminal(terminalLink: terminalLink)
                 .toolbar {
-                    Button(action: {
-                        let filename = writeTemporaryFile(
-                            ext: "rs",
-                            data: self.code.wrappedValue.data(using: .utf8)!
-                        )
+                    ToolbarItemGroup {
+                        Button(action: start) { Image(systemName: "play.fill") }
 
-                        let args = [
-                            "-c",
-                            "cd \(FileManager.default.temporaryDirectory.path) && \(Rust.RUSTUP) run \(toolchain!.name) rustc \(filename) && \(filename.dropLast(3))",
-                        ]
+                        Button(action: stop) { Image(systemName: "stop.fill") }
 
-                        var l: [String] = []
-                        l.append("LANG=en_US.UTF-8")
-                        let env = ProcessInfo.processInfo.environment
-                        for x in ["LOGNAME", "USER", "DISPLAY", "LC_TYPE", "USER", "HOME", "PATH"] {
-                            if env.keys.contains(x) {
-                                l.append("\(x)=\(env[x]!)")
+                        Spacer()
+
+                        Picker("", selection: $toolchain) {
+                            ForEach(toolchains) { toolchain in
+                                Text(toolchain.name).tag(toolchain as RustToolchain?)
                             }
                         }
 
-                        terminalLink.startProcess(
-                            executable: "/bin/sh",
-                            args: args,
-                            environment: l
-                        )
-                    }, label: { Image(systemName: "play.fill") })
-
-                    Button(action: {
-                        terminalLink.terminate(signal: Darwin.SIGKILL)
-                    }, label: { Image(systemName: "stop.fill") })
-
-                    Spacer()
-
-                    Picker("", selection: $toolchain) {
-                        ForEach(toolchains) { toolchain in
-                            Text(toolchain.name).tag(toolchain as RustToolchain?)
+                        Picker("", selection: $edition) {
+                            ForEach(RustEdition.allCases) { edition in
+                                Text(edition.rawValue).tag(edition)
+                            }
                         }
-                    }
 
-                    Picker("", selection: $edition) {
-                        ForEach(RustEdition.allCases) { edition in
-                            Text(edition.rawValue).tag(edition)
-                        }
-                    }
-
-                    Picker("", selection: $mode) {
-                        ForEach(RustMode.allCases) { mode in
-                            Text(mode.rawValue).tag(mode)
+                        Picker("", selection: $mode) {
+                            ForEach(RustMode.allCases) { mode in
+                                Text(mode.rawValue).tag(mode)
+                            }
                         }
                     }
                 }
         }
     }
 
-    init(rust: Rust, code: Binding<String>) {
+    init(rust: Rust, code: Binding<AttributedString>) {
         self.rust = rust
         self.code = code
         status = rust.status
+    }
+
+    private func start() {
+        terminalLink.reset()
+        terminalLink.feed(text: "Compiling...\n\r")
+        
+        let filename = writeTemporaryFile(
+            ext: "rs",
+            data: String(code.wrappedValue.characters[...]).data(using: .utf8)!
+        )
+        
+        let modeArgs = mode == .debug ? "-C debuginfo=2 -C opt-level=0" : "-C debuginfo=0 -C opt-level=3"
+
+        let args = [
+            "-c",
+            "cd \(FileManager.default.temporaryDirectory.path) && \(Rust.RUSTUP) run \(toolchain!.name) rustc --edition \(edition.rawValue) \(modeArgs) \(filename) && \(filename.dropLast(3))",
+        ]
+
+        var environment: [String] = []
+        environment.append("LANG=en_US.UTF-8")
+        let currentEnv = ProcessInfo.processInfo.environment
+        for variable in ["LOGNAME", "USER", "DISPLAY", "LC_TYPE", "USER", "HOME", "PATH"] {
+            if currentEnv.keys.contains(variable) {
+                environment.append("\(variable)=\(currentEnv[variable]!)")
+            }
+        }
+
+        terminalLink.startProcess(
+            executable: "/bin/sh",
+            args: args,
+            environment: environment
+        )
+    }
+    
+    private func stop() {
+        terminalLink.terminate()
     }
 }
 

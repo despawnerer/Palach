@@ -5,18 +5,28 @@ import SwiftUI
 
 enum TerminalAction {
     case startProcess(executable: String, args: [String], environment: [String]?, execName: String?)
-    case terminate(signal: Int32)
+    case reset
+    case terminate
+    case feed(text: String)
 }
 
 class TerminalLink: ObservableObject {
     @Published var action: TerminalAction?
+    
+    func reset() {
+        action = .reset
+    }
 
     func startProcess(executable: String, args: [String] = [], environment: [String]? = nil, execName: String? = nil) {
         action = .startProcess(executable: executable, args: args, environment: environment, execName: execName)
     }
 
-    func terminate(signal: Int32) {
-        action = .terminate(signal: signal)
+    func terminate() {
+        action = .terminate
+    }
+    
+    func feed(text: String) {
+        action = .feed(text: text)
     }
 }
 
@@ -29,9 +39,7 @@ class SwiftUITerminalViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        terminalView = CustomLocalProcessTerminalView(frame: view.frame)
-        terminalView!.configureNativeColors()
-        view.addSubview(terminalView!)
+        resetTerminalView()
     }
 
     override func viewDidLayout() {
@@ -42,15 +50,25 @@ class SwiftUITerminalViewController: NSViewController {
     func action(_ action: TerminalAction) {
         switch action {
         case let .startProcess(executable, args, environment, execName):
-            /* TODO: figure out how to clear the terminal? is there a built-in thing in SwiftTerm or do I need to build it? */
             terminalView!.startProcess(executable: executable, args: args, environment: environment, execName: execName)
-        case let .terminate(signal):
-            terminalView!.terminateProcess(signal: signal)
+        case .terminate:
+            terminalView!.terminateRunningProcess()
+        case .reset:
+            resetTerminalView()
+        case let .feed(text):
+            terminalView!.feed(text: text)
         }
+    }
+    
+    func resetTerminalView() {
+        terminalView?.removeFromSuperview()
+        terminalView = CustomLocalProcessTerminalView(frame: view.frame)
+        terminalView!.configureNativeColors()
+        view.addSubview(terminalView!)
     }
 }
 
-struct SwiftUITerminalView: NSViewControllerRepresentable {
+struct SwiftUITerminal: NSViewControllerRepresentable {
     typealias NSViewControllerType = SwiftUITerminalViewController
 
     var terminalLink: TerminalLink

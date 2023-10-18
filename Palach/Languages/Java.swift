@@ -1,10 +1,9 @@
-import CodeEditor
 import Foundation
 
 class Java: Language {
     let name = "Java"
     let ext = "java"
-    let codeEditorLanguage = CodeEditor.Language.java
+//    let codeEditorLanguage = CodeLanguage.java
     let snippet = """
     class Playground {
         public static void main(String[] args) {

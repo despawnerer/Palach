@@ -1,4 +1,3 @@
-import CodeEditor
 import Foundation
 
 class Rust: Language {
@@ -13,12 +12,12 @@ class Rust: Language {
         .appendingPathComponent("rustup")
         .path
 
-    static let defaultEdition: RustEdition = .e2018
+    static let defaultEdition: RustEdition = .e2021
     static let defaultMode: RustMode = .release
 
     let name = "Rust"
     let ext = "rs"
-    let codeEditorLanguage = CodeEditor.Language.rust
+//    let codeEditorLanguage = CodeLanguage.rust
     let snippet = """
     fn main() {
         println!("Hello, Rust!");
