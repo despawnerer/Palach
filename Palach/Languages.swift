@@ -1,11 +1,23 @@
 import Foundation
 import SwiftUI
 
-struct LanguagesRegistry {
-    static let languages: [Language] = [
-        Java(),
-        Rust(),
-    ]
+enum LanguageOption: String, CaseIterable, Identifiable {
+    case java = "Java"
+    case rust = "Rust"
+
+    static let JAVA = Java()
+    static let RUST = Rust()
+
+    var id: String { rawValue }
+
+    func instance() -> Language {
+        switch self {
+        case .java:
+            return LanguageOption.JAVA
+        case .rust:
+            return LanguageOption.RUST
+        }
+    }
 }
 
 protocol Language {
