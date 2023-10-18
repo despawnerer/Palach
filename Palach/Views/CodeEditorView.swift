@@ -2,14 +2,13 @@
 //  https://github.com/krzyzanowskim/STTextView/blob/main/LICENSE.md
 
 import Foundation
-import SwiftUI
-import STTextView
-import TextFormation
 import NeonPlugin
+import STTextView
+import SwiftUI
+import TextFormation
 import TextFormationPlugin
 
 public struct CodeEditorView: SwiftUI.View {
-
     @Environment(\.colorScheme) private var colorScheme
     @Binding private var text: AttributedString
     @Binding private var selection: NSRange?
@@ -43,8 +42,8 @@ private struct TextViewRepresentable: NSViewRepresentable {
     @Binding private var selection: NSRange?
 
     init(text: Binding<AttributedString>, selection: Binding<NSRange?>) {
-        self._text = text
-        self._selection = selection
+        _text = text
+        _selection = selection
     }
 
     func makeNSView(context: Context) -> NSScrollView {
@@ -57,34 +56,34 @@ private struct TextViewRepresentable: NSViewRepresentable {
         textView.widthTracksTextView = true
         textView.setSelectedRange(NSRange())
         textView.font = .monospacedSystemFont(ofSize: NSFont.systemFontSize, weight: .regular)
-        
+
         textView.isIncrementalSearchingEnabled = true
         textView.textFinder.incrementalSearchingShouldDimContentView = true
 
         context.coordinator.isUpdating = true
         textView.setAttributedString(NSAttributedString(styledAttributedString(textView.typingAttributes)))
         context.coordinator.isUpdating = false
-        
+
         // Line numbers: Should be after setting font
         let rulerView = STLineNumberRulerView(textView: textView)
         rulerView.highlightSelectedLine = true
         scrollView.verticalRulerView = rulerView
         scrollView.rulersVisible = true
-        
+
         textView.addPlugin(NeonPlugin(theme: .default, language: .swift))
         textView.addPlugin(TextFormationPlugin(
             filters: [
                 StandardOpenPairFilter(open: "[", close: "]"),
                 StandardOpenPairFilter(open: "{", close: "}"),
                 StandardOpenPairFilter(open: "<", close: ">"),
-                NewlineProcessingFilter()
+                NewlineProcessingFilter(),
             ],
             whitespaceProviders: WhitespaceProviders(
                 leadingWhitespace: TextualIndenter().substitionProvider(indentationUnit: "    ", width: 4),
                 trailingWhitespace: WhitespaceProviders.removeAllProvider
             )
         ))
-        
+
         return scrollView
     }
 
@@ -109,7 +108,7 @@ private struct TextViewRepresentable: NSViewRepresentable {
         if textView.isSelectable != isEnabled {
             textView.isSelectable = isEnabled
         }
-        
+
         // FIXME: Not entirely sure what this does?
         textView.font = .monospacedSystemFont(ofSize: NSFont.systemFontSize, weight: .regular)
     }
@@ -157,7 +156,7 @@ private struct TextViewRepresentable: NSViewRepresentable {
                 }
             }
         }
-        
+
         func textViewDidChangeSelection(_ notification: Notification) {
             guard let textView = notification.object as? STTextView else {
                 return
@@ -170,4 +169,3 @@ private struct TextViewRepresentable: NSViewRepresentable {
         }
     }
 }
-

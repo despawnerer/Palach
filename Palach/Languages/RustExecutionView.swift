@@ -67,12 +67,12 @@ struct RustExecutionView: View {
     private func start() {
         terminalLink.reset()
         terminalLink.feed(text: "Compiling...\n\r")
-        
+
         let filename = writeTemporaryFile(
             ext: "rs",
             data: String(code.wrappedValue.characters[...]).data(using: .utf8)!
         )
-        
+
         let modeArgs = mode == .debug ? "-C debuginfo=2 -C opt-level=0" : "-C debuginfo=0 -C opt-level=3"
 
         let args = [
@@ -95,7 +95,7 @@ struct RustExecutionView: View {
             environment: environment
         )
     }
-    
+
     private func stop() {
         terminalLink.terminate()
     }

@@ -45,9 +45,11 @@ enum JavaStatus {
     case available([JVM])
 }
 
-struct JVM: Codable {
+struct JVM: Codable, Hashable, Identifiable {
     let JVMPlatformVersion: String
     let JVMEnabled: Bool
     let JVMHomePath: String
     let JVMName: String
+
+    var id: String { JVMName }
 }

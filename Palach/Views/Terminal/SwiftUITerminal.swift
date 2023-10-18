@@ -12,7 +12,7 @@ enum TerminalAction {
 
 class TerminalLink: ObservableObject {
     @Published var action: TerminalAction?
-    
+
     func reset() {
         action = .reset
     }
@@ -24,7 +24,7 @@ class TerminalLink: ObservableObject {
     func terminate() {
         action = .terminate
     }
-    
+
     func feed(text: String) {
         action = .feed(text: text)
     }
@@ -59,7 +59,7 @@ class SwiftUITerminalViewController: NSViewController {
             terminalView!.feed(text: text)
         }
     }
-    
+
     func resetTerminalView() {
         terminalView?.removeFromSuperview()
         terminalView = CustomLocalProcessTerminalView(frame: view.frame)

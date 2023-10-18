@@ -8,25 +8,25 @@ struct ContentView: View {
         HSplitView {
             CodeEditorView(text: $code)
                 .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
-            .toolbar {
-                Menu {
-                    ForEach(LanguagesRegistry.languages, id: \.self.name) { language in
-                        Button(action: {
-                            selectLanguage(language: language)
-                        }) {
-                            Text(language.name)
+                .toolbar {
+                    Menu {
+                        ForEach(LanguagesRegistry.languages, id: \.self.name) { language in
+                            Button(action: {
+                                selectLanguage(language: language)
+                            }) {
+                                Text(language.name)
+                            }
                         }
+                    } label: {
+                        Text(selectedLanguage.name)
                     }
-                } label: {
-                    Text(selectedLanguage.name)
                 }
-            }
 
             if let rust = selectedLanguage as? Rust {
                 RustExecutionView(rust: rust, code: $code)
                     .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
             } else if let java = selectedLanguage as? Java {
-                JavaExecutionView(java: java)
+                JavaExecutionView(java: java, code: $code)
                     .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
             }
         }
