@@ -10,14 +10,14 @@ import TextFormationPlugin
 
 public struct CodeEditorView: SwiftUI.View {
     @Environment(\.colorScheme) private var colorScheme
-    @Binding private var text: AttributedString
+    @Binding private var text: String
     @Binding private var selection: NSRange?
 
     /// Create a text edit view with a certain text that uses a certain options.
     /// - Parameters:
     ///   - text: The attributed string content
     public init(
-        text: Binding<AttributedString>,
+        text: Binding<String>,
         selection: Binding<NSRange?> = .constant(nil)
     ) {
         _text = text
@@ -38,10 +38,10 @@ private struct TextViewRepresentable: NSViewRepresentable {
     @Environment(\.font) private var font
     @Environment(\.lineSpacing) private var lineSpacing
 
-    @Binding private var text: AttributedString
+    @Binding private var text: String
     @Binding private var selection: NSRange?
 
-    init(text: Binding<AttributedString>, selection: Binding<NSRange?>) {
+    init(text: Binding<String>, selection: Binding<NSRange?>) {
         _text = text
         _selection = selection
     }
@@ -125,12 +125,12 @@ private struct TextViewRepresentable: NSViewRepresentable {
             typingAttributes[.paragraphStyle] = paragraph
 
             let attributeContainer = AttributeContainer(typingAttributes)
-            var styledText = text
+            var styledText = AttributedString(text)
             styledText.mergeAttributes(attributeContainer, mergePolicy: .keepNew)
             return styledText
         }
 
-        return text
+        return AttributedString(text)
     }
 
     class TextCoordinator: STTextViewDelegate {
@@ -152,7 +152,7 @@ private struct TextViewRepresentable: NSViewRepresentable {
                 let newTextValue = AttributedString(textView.attributedString())
                 DispatchQueue.main.async {
                     self.isDidChangeText = true
-                    self.parent.text = newTextValue
+                    self.parent.text = String(newTextValue.characters[...])
                 }
             }
         }

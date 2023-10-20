@@ -2,10 +2,10 @@ import SwiftUI
 
 class PlaygroundViewModel: ObservableObject {
     @Published var languages: [LanguageOption: LanguageStatus]
-    @Published var code: AttributedString
+    @Published var code: String
     @Published var selectedLanguage: LanguageOption {
         didSet {
-            code = AttributedString(selectedLanguage.type().snippet)
+            code = selectedLanguage.type().snippet
         }
     }
 
@@ -13,7 +13,7 @@ class PlaygroundViewModel: ObservableObject {
         let initialLanguage = languages.keys.first!
         self.languages = languages
         selectedLanguage = initialLanguage
-        code = AttributedString(initialLanguage.type().snippet)
+        code = initialLanguage.type().snippet
     }
 }
 

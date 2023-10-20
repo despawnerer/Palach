@@ -2,7 +2,7 @@ import SwiftUI
 
 struct RustExecutionView: View {
     let rust: Rust
-    let code: Binding<AttributedString>
+    let code: Binding<String>
 
     @State var toolchain: RustToolchain
     @State var edition: RustEdition = Rust.defaultEdition
@@ -41,7 +41,7 @@ struct RustExecutionView: View {
             }
     }
 
-    init(rust: Rust, code: Binding<AttributedString>) {
+    init(rust: Rust, code: Binding<String>) {
         self.rust = rust
         self.code = code
         _toolchain = State(initialValue: rust.toolchains.first!)
@@ -53,7 +53,7 @@ struct RustExecutionView: View {
 
         let filename = writeTemporaryFile(
             ext: "rs",
-            data: String(code.wrappedValue.characters[...]).data(using: .utf8)!
+            data: code.wrappedValue.data(using: .utf8)!
         )
 
         let modeArgs = mode == .debug ? "-C debuginfo=2 -C opt-level=0" : "-C debuginfo=0 -C opt-level=3"

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct JavaExecutionView: View {
     let java: Java
-    let code: Binding<AttributedString>
+    let code: Binding<String>
 
     @State var jvm: JVM
 
@@ -27,7 +27,7 @@ struct JavaExecutionView: View {
             }
     }
 
-    init(java: Java, code: Binding<AttributedString>) {
+    init(java: Java, code: Binding<String>) {
         self.java = java
         self.code = code
         _jvm = State(initialValue: java.jvms.first!)
@@ -39,7 +39,7 @@ struct JavaExecutionView: View {
 
         let filename = writeTemporaryFile(
             ext: "java",
-            data: String(code.wrappedValue.characters[...]).data(using: .utf8)!
+            data: code.wrappedValue.data(using: .utf8)!
         )
 
         terminalLink.startProcess(
