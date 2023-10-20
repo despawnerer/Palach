@@ -46,7 +46,3 @@ struct PlaygroundView: View {
         viewModel = PlaygroundViewModel(options)
     }
 }
-
-// #Preview {
-//    PlaygroundView()
-// }

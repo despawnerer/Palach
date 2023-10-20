@@ -83,10 +83,3 @@ struct RustExecutionView: View {
         terminalLink.terminate()
     }
 }
-
-//
-// struct RustExecutionView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RustExecutionView(rust: Rust(), code: "asdf")
-//    }
-// }

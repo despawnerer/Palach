@@ -52,9 +52,3 @@ struct JavaExecutionView: View {
         terminalLink.terminate()
     }
 }
-
-// struct JavaExecutionView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        JavaExecutionView(java: Java())
-//    }
-// }
