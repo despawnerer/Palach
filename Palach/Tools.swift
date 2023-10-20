@@ -1,4 +1,5 @@
 import Foundation
+import SwiftSlash
 
 func writeTemporaryFile(ext: String, data: Data) -> String {
     let temporaryDirectoryURL = FileManager.default.temporaryDirectory
@@ -12,45 +13,47 @@ func writeTemporaryFile(ext: String, data: Data) -> String {
     return temporaryFileURL.path
 }
 
-func launch(tool: String, arguments: [String], completionHandler: @escaping (Int32, Data) -> Void) throws {
-    let group = DispatchGroup()
-    let pipe = Pipe()
-    var standardOutData = Data()
+struct ExecutionResult {
+    /// A convenience boolean that is set to `true` when `exitCode` is `0`
+    public let succeeded: Bool
+    /// The exit code of the process
+    public let exitCode: Int32
+    /// The data that was written to `STDOUT` by the process.
+    public let stdout: Data
+    /// The data that was written to `STDERR` by the process.
+    public let stderr: Data
 
-    group.enter()
-    let proc = Process()
-    proc.currentDirectoryURL = FileManager.default.temporaryDirectory
-    proc.executableURL = URL(fileURLWithPath: tool)
-    proc.arguments = arguments
-    proc.standardOutput = pipe.fileHandleForWriting
-    proc.standardError = pipe.fileHandleForWriting
-    proc.terminationHandler = { _ in
-        proc.terminationHandler = nil
-        group.leave()
-    }
-
-    group.enter()
-    DispatchQueue.global().async {
-        // Doing long-running synchronous I/O on a global concurrent queue block
-        // is less than ideal, but I’ve convinced myself that it’s acceptable
-        // given the target ‘market’ for this code.
-
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        pipe.fileHandleForReading.closeFile()
-        DispatchQueue.main.async {
-            standardOutData = data
-            group.leave()
+    init(exitCode: Int32, stdout: Data, stderr: Data) {
+        self.exitCode = exitCode
+        self.stdout = stdout
+        self.stderr = stderr
+        if exitCode == 0 {
+            succeeded = true
+        } else {
+            succeeded = false
         }
     }
+}
 
-    group.notify(queue: .main) {
-        completionHandler(proc.terminationStatus, standardOutData)
+func executeCommand(_ execute: String,
+                    arguments: [String] = [String](),
+                    environment: [String: String] = CurrentProcessState.getCurrentEnvironmentVariables(),
+                    workingDirectory: URL = CurrentProcessState.getCurrentWorkingDirectory()) async throws -> ExecutionResult
+{
+    let command = try Command(execute, arguments: arguments, environment: environment, workingDirectory: workingDirectory)
+    let procInterface = ProcessInterface(command: command)
+    try await procInterface.launch()
+    // add the stdout task
+    var stdoutBlob = Data()
+    for await stdoutChunk in await procInterface.stdout {
+        stdoutBlob += stdoutChunk
     }
 
-    try proc.run()
-
-    // We have to close our reference to the write side of the pipe so that the
-    // termination of the child process triggers EOF on the read side.
-
-    pipe.fileHandleForWriting.closeFile()
+    // add the stderr task
+    var stderrBlob = Data()
+    for await stderrChunk in await procInterface.stderr {
+        stderrBlob += stderrChunk
+    }
+    let exitCode = try await procInterface.exitCode()
+    return ExecutionResult(exitCode: exitCode, stdout: stdoutBlob, stderr: stderrBlob)
 }

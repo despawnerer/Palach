@@ -1,11 +1,6 @@
 import Foundation
 
 class Rust: Language {
-    /*
-     FIXME:
-     I don't fucking know how to get to rustup properly, without executing bash as an interactive shell.
-     There has to be _some_ way?
-     */
     static let RUSTUP = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent(".cargo")
         .appendingPathComponent("bin")
@@ -15,49 +10,38 @@ class Rust: Language {
     static let defaultEdition: RustEdition = .e2021
     static let defaultMode: RustMode = .release
 
-    let name = "Rust"
-    let ext = "rs"
-//    let codeEditorLanguage = CodeLanguage.rust
-    let snippet = """
+    static let name = "Rust"
+    static let snippet = """
     fn main() {
         println!("Hello, Rust!");
     }
     """
 
-    var status: RustStatus = .uninitialized
+    let toolchains: [RustToolchain]
 
-    func maybeInitialize(completionHandler: @escaping () -> Void) throws {
-        guard case .uninitialized = status else {
-            completionHandler()
-            return
-        }
-
-        try! detectToolchains(completionHandler: completionHandler)
+    init(_ toolchains: [RustToolchain]) {
+        self.toolchains = toolchains
     }
 
-    func detectToolchains(completionHandler: @escaping () -> Void) throws {
-        try launch(tool: Rust.RUSTUP, arguments: ["toolchain", "list"]) { _, output in
-            let toolchains = String(decoding: output, as: UTF8.self)
-                .components(separatedBy: "\n")
-                .filter { $0.count > 0 }
-                .map { $0.components(separatedBy: " ")[0] }
-                .map { RustToolchain(name: $0) }
+    static func detect() async throws -> LanguageStatus {
+        let result = try await executeCommand(
+            Rust.RUSTUP,
+            arguments: ["toolchain", "list"]
+        )
 
-            if toolchains.isEmpty {
-                self.status = .unavailable
-            } else {
-                self.status = .available(toolchains)
-            }
+        /* TODO: Handle errors? */
+        let toolchains: [RustToolchain] = String(decoding: result.stdout, as: UTF8.self)
+            .components(separatedBy: "\n")
+            .filter { $0.count > 0 }
+            .map { $0.components(separatedBy: " ")[0] }
+            .map { RustToolchain(name: $0) }
 
-            completionHandler()
+        if toolchains.isEmpty {
+            return .unavailable
+        } else {
+            return .available(Rust(toolchains))
         }
     }
-}
-
-enum RustStatus {
-    case uninitialized
-    case unavailable
-    case available([RustToolchain])
 }
 
 enum RustMode: String, CaseIterable, Identifiable {

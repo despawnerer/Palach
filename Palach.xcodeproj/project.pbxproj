@@ -12,6 +12,7 @@
 		37205A5F2ADFE4ED00B31074 /* NeonPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 37205A5E2ADFE4ED00B31074 /* NeonPlugin */; };
 		37205A622ADFF04200B31074 /* TextFormationPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 37205A612ADFF04200B31074 /* TextFormationPlugin */; };
 		37205A642AE0272A00B31074 /* CodeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37205A632AE0272A00B31074 /* CodeEditorView.swift */; };
+		37205A682AE1AD6200B31074 /* SwiftSlash in Frameworks */ = {isa = PBXBuildFile; productRef = 37205A672AE1AD6200B31074 /* SwiftSlash */; };
 		372FDCA226447AE400F33F10 /* PalachApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FDCA126447AE400F33F10 /* PalachApp.swift */; };
 		372FDCA426447AE400F33F10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FDCA326447AE400F33F10 /* ContentView.swift */; };
 		372FDCA626447AE700F33F10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 372FDCA526447AE700F33F10 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 		372FDCB526447AE700F33F10 /* PalachTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FDCB426447AE700F33F10 /* PalachTests.swift */; };
 		372FDCC026447AE700F33F10 /* PalachUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FDCBF26447AE700F33F10 /* PalachUITests.swift */; };
 		372FDCCE26447B7900F33F10 /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372FDCCD26447B7900F33F10 /* Languages.swift */; };
+		377E5E182AE2628A00B92CDB /* PlaygroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377E5E172AE2628A00B92CDB /* PlaygroundView.swift */; };
 		37D281F62645396000AD4C7B /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D281F52645396000AD4C7B /* Tools.swift */; };
 		37D281F9264539BE00AD4C7B /* Java.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D281F8264539BE00AD4C7B /* Java.swift */; };
 		37D281FE264544E700AD4C7B /* Rust.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D281FD264544E700AD4C7B /* Rust.swift */; };
@@ -75,6 +77,7 @@
 		372FDCBF26447AE700F33F10 /* PalachUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PalachUITests.swift; sourceTree = "<group>"; };
 		372FDCC126447AE700F33F10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		372FDCCD26447B7900F33F10 /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
+		377E5E172AE2628A00B92CDB /* PlaygroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundView.swift; sourceTree = "<group>"; };
 		37D281F52645396000AD4C7B /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		37D281F8264539BE00AD4C7B /* Java.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Java.swift; sourceTree = "<group>"; };
 		37D281FD264544E700AD4C7B /* Rust.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rust.swift; sourceTree = "<group>"; };
@@ -91,6 +94,7 @@
 				37205A5F2ADFE4ED00B31074 /* NeonPlugin in Frameworks */,
 				37D2820126457CDF00AD4C7B /* SwiftTerm in Frameworks */,
 				37205A622ADFF04200B31074 /* TextFormationPlugin in Frameworks */,
+				37205A682AE1AD6200B31074 /* SwiftSlash in Frameworks */,
 				37205A5C2ADFE4C500B31074 /* STTextView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,8 +128,11 @@
 		37205A652AE0649200B31074 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				37EF4ED42659346F005CDADE /* RustExecutionView.swift */,
+				37EF4ED626593868005CDADE /* JavaExecutionView.swift */,
 				3706E95528325802006815FD /* Terminal */,
 				37205A632AE0272A00B31074 /* CodeEditorView.swift */,
+				377E5E172AE2628A00B92CDB /* PlaygroundView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -198,8 +205,6 @@
 			children = (
 				37D281F8264539BE00AD4C7B /* Java.swift */,
 				37D281FD264544E700AD4C7B /* Rust.swift */,
-				37EF4ED42659346F005CDADE /* RustExecutionView.swift */,
-				37EF4ED626593868005CDADE /* JavaExecutionView.swift */,
 			);
 			path = Languages;
 			sourceTree = "<group>";
@@ -226,6 +231,7 @@
 				37205A5B2ADFE4C500B31074 /* STTextView */,
 				37205A5E2ADFE4ED00B31074 /* NeonPlugin */,
 				37205A612ADFF04200B31074 /* TextFormationPlugin */,
+				37205A672AE1AD6200B31074 /* SwiftSlash */,
 			);
 			productName = Palach;
 			productReference = 372FDC9E26447AE400F33F10 /* Palach.app */;
@@ -303,6 +309,7 @@
 				37205A5A2ADFE4C500B31074 /* XCRemoteSwiftPackageReference "STTextView" */,
 				37205A5D2ADFE4ED00B31074 /* XCRemoteSwiftPackageReference "STTextView-Plugin-Neon" */,
 				37205A602ADFF04100B31074 /* XCRemoteSwiftPackageReference "STTextView-Plugin-TextFormation" */,
+				37205A662AE1AD6200B31074 /* XCRemoteSwiftPackageReference "SwiftSlash" */,
 			);
 			productRefGroup = 372FDC9F26447AE400F33F10 /* Products */;
 			projectDirPath = "";
@@ -353,6 +360,7 @@
 				3706E95B28325DCE006815FD /* CustomLocalProcessTerminalView.swift in Sources */,
 				37EF4ED726593868005CDADE /* JavaExecutionView.swift in Sources */,
 				37205A642AE0272A00B31074 /* CodeEditorView.swift in Sources */,
+				377E5E182AE2628A00B92CDB /* PlaygroundView.swift in Sources */,
 				372FDCA226447AE400F33F10 /* PalachApp.swift in Sources */,
 				37D281F62645396000AD4C7B /* Tools.swift in Sources */,
 				37D281FE264544E700AD4C7B /* Rust.swift in Sources */,
@@ -699,6 +707,14 @@
 				kind = branch;
 			};
 		};
+		37205A662AE1AD6200B31074 /* XCRemoteSwiftPackageReference "SwiftSlash" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tannerdsilva/SwiftSlash";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.4.0;
+			};
+		};
 		37D281FF26457CDF00AD4C7B /* XCRemoteSwiftPackageReference "SwiftTerm" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/migueldeicaza/SwiftTerm";
@@ -724,6 +740,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 37205A602ADFF04100B31074 /* XCRemoteSwiftPackageReference "STTextView-Plugin-TextFormation" */;
 			productName = TextFormationPlugin;
+		};
+		37205A672AE1AD6200B31074 /* SwiftSlash */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 37205A662AE1AD6200B31074 /* XCRemoteSwiftPackageReference "SwiftSlash" */;
+			productName = SwiftSlash;
 		};
 		37D2820026457CDF00AD4C7B /* SwiftTerm */ = {
 			isa = XCSwiftPackageProductDependency;

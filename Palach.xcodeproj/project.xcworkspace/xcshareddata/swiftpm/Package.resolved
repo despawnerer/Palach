@@ -55,6 +55,15 @@
       }
     },
     {
+      "identity" : "swiftslash",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tannerdsilva/SwiftSlash",
+      "state" : {
+        "revision" : "dbcd79125918644c348471853ef5332d650548db",
+        "version" : "3.4.0"
+      }
+    },
+    {
       "identity" : "swiftterm",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/migueldeicaza/SwiftTerm",

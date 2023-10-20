@@ -1,10 +1,9 @@
 import Foundation
+import SwiftSlash
 
 class Java: Language {
-    let name = "Java"
-    let ext = "java"
-//    let codeEditorLanguage = CodeLanguage.java
-    let snippet = """
+    static let name = "Java"
+    static let snippet = """
     class Playground {
         public static void main(String[] args) {
             System.out.println("Hello Java");
@@ -12,24 +11,29 @@ class Java: Language {
     }
     """
 
-    var status: JavaStatus = .uninitialized
+    let jvms: [JVM]
 
-    func detectJVMs(completionHandler: @escaping () -> Void) throws {
+    init(_ jvms: [JVM]) {
+        self.jvms = jvms
+    }
+
+    static func detect() async throws -> LanguageStatus {
         let decoder = PropertyListDecoder()
 
-        try launch(tool: "/usr/libexec/java_home", arguments: ["-X"]) { _, output in
-            /* FIXME: what happens if the command fails? */
-            /* FIXME: also, what happens if there aren't any javas around? */
-            let jvms = try? decoder.decode([JVM].self, from: output)
-                .filter(\.JVMEnabled)
+        let result = try await executeCommand(
+            "/usr/libexec/java_home",
+            arguments: ["-X"]
+        )
 
-            if jvms?.isEmpty ?? true {
-                self.status = .unavailable
-            } else {
-                self.status = .available(jvms!)
-            }
+        /* FIXME: what happens if the command fails? */
+        /* FIXME: also, what happens if there aren't any javas around? */
+        let jvms = try? decoder.decode([JVM].self, from: result.stdout)
+            .filter(\.JVMEnabled)
 
-            completionHandler()
+        if jvms?.isEmpty ?? true {
+            return .unavailable
+        } else {
+            return .available(Java(jvms!))
         }
     }
 
@@ -37,12 +41,6 @@ class Java: Language {
         // FIXME:
         return ""
     }
-}
-
-enum JavaStatus {
-    case uninitialized
-    case unavailable
-    case available([JVM])
 }
 
 struct JVM: Codable, Hashable, Identifiable {
