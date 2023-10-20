@@ -28,6 +28,7 @@ class CustomLocalProcessTerminalView: TerminalView, TerminalViewDelegate, LocalP
     }
 
     public func terminateRunningProcess() {
+        guard process.running else { return }
         process.terminate()
     }
 

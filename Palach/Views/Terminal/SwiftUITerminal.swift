@@ -30,7 +30,7 @@ class TerminalLink: ObservableObject {
     }
 }
 
-class SwiftUITerminalViewController: NSViewController {
+class SwiftUITerminalViewController: NSViewController, CustomLocalProcessTerminalViewDelegate {
     var terminalView: CustomLocalProcessTerminalView?
 
     override func loadView() {
@@ -61,10 +61,30 @@ class SwiftUITerminalViewController: NSViewController {
     }
 
     func resetTerminalView() {
+        terminalView?.terminateRunningProcess()
         terminalView?.removeFromSuperview()
+        terminalView?.processDelegate = nil
+
         terminalView = CustomLocalProcessTerminalView(frame: view.frame)
         terminalView!.configureNativeColors()
+        terminalView!.processDelegate = self
         view.addSubview(terminalView!)
+    }
+
+    func sizeChanged(source _: CustomLocalProcessTerminalView, newCols _: Int, newRows _: Int) {
+        /* Don't care */
+    }
+
+    func setTerminalTitle(source _: CustomLocalProcessTerminalView, title _: String) {
+        /* Don't care */
+    }
+
+    func hostCurrentDirectoryUpdate(source _: SwiftTerm.TerminalView, directory _: String?) {
+        /* Don't care */
+    }
+
+    func processTerminated(source _: SwiftTerm.TerminalView, exitCode: Int32?) {
+        terminalView?.feed(text: "\r\n(Terminated with status \(exitCode ?? -1))\r\n")
     }
 }
 
