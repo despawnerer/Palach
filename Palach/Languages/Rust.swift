@@ -55,6 +55,7 @@ enum RustEdition: String, CaseIterable, Identifiable {
     case e2015 = "2015"
     case e2018 = "2018"
     case e2021 = "2021"
+    case e2024 = "2024"
 
     var id: String { rawValue }
 }
