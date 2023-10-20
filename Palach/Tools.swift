@@ -1,5 +1,6 @@
 import Foundation
 import SwiftSlash
+import SwiftUI
 
 func writeTemporaryFile(ext: String, data: Data) -> String {
     let temporaryDirectoryURL = FileManager.default.temporaryDirectory
@@ -56,4 +57,16 @@ func executeCommand(_ execute: String,
     }
     let exitCode = try await procInterface.exitCode()
     return ExecutionResult(exitCode: exitCode, stdout: stdoutBlob, stderr: stderrBlob)
+}
+
+extension Binding {
+    func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
+        return Binding(
+            get: { self.wrappedValue },
+            set: { selection in
+                self.wrappedValue = selection
+                handler(selection)
+            }
+        )
+    }
 }
