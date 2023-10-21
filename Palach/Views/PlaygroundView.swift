@@ -3,11 +3,12 @@ import SwiftUI
 struct PlaygroundView: View {
     @State var languages: [LanguageOption: LanguageStatus]
     @State var code: String
+    @State var selection: NSRange?
     @State var selectedLanguage: LanguageOption
 
     var body: some View {
         HSplitView {
-            CodeEditorView(text: $code)
+            CodeEditorView(text: $code, selection: $selection)
                 .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
                 .toolbar {
                     Picker("", selection: $selectedLanguage.onChange(selectLanguage)) {
