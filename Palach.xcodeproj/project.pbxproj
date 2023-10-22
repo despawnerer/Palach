@@ -26,8 +26,8 @@
 		37D281FE264544E700AD4C7B /* Rust.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D281FD264544E700AD4C7B /* Rust.swift */; };
 		37D2820126457CDF00AD4C7B /* SwiftTerm in Frameworks */ = {isa = PBXBuildFile; productRef = 37D2820026457CDF00AD4C7B /* SwiftTerm */; };
 		37EF4ED326486B9C005CDADE /* SwiftUITerminal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EF4ED226486B9C005CDADE /* SwiftUITerminal.swift */; };
-		37EF4ED52659346F005CDADE /* RustExecutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EF4ED42659346F005CDADE /* RustExecutionView.swift */; };
-		37EF4ED726593868005CDADE /* JavaExecutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EF4ED626593868005CDADE /* JavaExecutionView.swift */; };
+		37EF4ED52659346F005CDADE /* RustOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EF4ED42659346F005CDADE /* RustOptionsView.swift */; };
+		37EF4ED726593868005CDADE /* JavaOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EF4ED626593868005CDADE /* JavaOptionsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,8 +82,8 @@
 		37D281F8264539BE00AD4C7B /* Java.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Java.swift; sourceTree = "<group>"; };
 		37D281FD264544E700AD4C7B /* Rust.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rust.swift; sourceTree = "<group>"; };
 		37EF4ED226486B9C005CDADE /* SwiftUITerminal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUITerminal.swift; sourceTree = "<group>"; };
-		37EF4ED42659346F005CDADE /* RustExecutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RustExecutionView.swift; sourceTree = "<group>"; };
-		37EF4ED626593868005CDADE /* JavaExecutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaExecutionView.swift; sourceTree = "<group>"; };
+		37EF4ED42659346F005CDADE /* RustOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RustOptionsView.swift; sourceTree = "<group>"; };
+		37EF4ED626593868005CDADE /* JavaOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaOptionsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,13 +128,21 @@
 		37205A652AE0649200B31074 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				37EF4ED42659346F005CDADE /* RustExecutionView.swift */,
-				37EF4ED626593868005CDADE /* JavaExecutionView.swift */,
+				372D54E42AE44949004823BE /* Languages */,
 				3706E95528325802006815FD /* Terminal */,
 				37205A632AE0272A00B31074 /* CodeEditorView.swift */,
 				377E5E172AE2628A00B92CDB /* PlaygroundView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		372D54E42AE44949004823BE /* Languages */ = {
+			isa = PBXGroup;
+			children = (
+				37EF4ED42659346F005CDADE /* RustOptionsView.swift */,
+				37EF4ED626593868005CDADE /* JavaOptionsView.swift */,
+			);
+			path = Languages;
 			sourceTree = "<group>";
 		};
 		372FDC9526447AE400F33F10 = {
@@ -168,7 +176,6 @@
 				372FDCAA26447AE700F33F10 /* Info.plist */,
 				372FDCAB26447AE700F33F10 /* Palach.entitlements */,
 				372FDCA726447AE700F33F10 /* Preview Content */,
-				372FDCCD26447B7900F33F10 /* Languages.swift */,
 				37D281F52645396000AD4C7B /* Tools.swift */,
 			);
 			path = Palach;
@@ -203,6 +210,7 @@
 		37D281F7264539B200AD4C7B /* Languages */ = {
 			isa = PBXGroup;
 			children = (
+				372FDCCD26447B7900F33F10 /* Languages.swift */,
 				37D281F8264539BE00AD4C7B /* Java.swift */,
 				37D281FD264544E700AD4C7B /* Rust.swift */,
 			);
@@ -358,13 +366,13 @@
 				37EF4ED326486B9C005CDADE /* SwiftUITerminal.swift in Sources */,
 				372FDCA426447AE400F33F10 /* ContentView.swift in Sources */,
 				3706E95B28325DCE006815FD /* CustomLocalProcessTerminalView.swift in Sources */,
-				37EF4ED726593868005CDADE /* JavaExecutionView.swift in Sources */,
+				37EF4ED726593868005CDADE /* JavaOptionsView.swift in Sources */,
 				37205A642AE0272A00B31074 /* CodeEditorView.swift in Sources */,
 				377E5E182AE2628A00B92CDB /* PlaygroundView.swift in Sources */,
 				372FDCA226447AE400F33F10 /* PalachApp.swift in Sources */,
 				37D281F62645396000AD4C7B /* Tools.swift in Sources */,
 				37D281FE264544E700AD4C7B /* Rust.swift in Sources */,
-				37EF4ED52659346F005CDADE /* RustExecutionView.swift in Sources */,
+				37EF4ED52659346F005CDADE /* RustOptionsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

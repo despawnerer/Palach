@@ -1,7 +1,18 @@
 import Foundation
 import SwiftSlash
+import SwiftUI
+
+class JavaOptions: ObservableObject {
+    @Published var jvm: JVM
+    
+    init(jvm: JVM) {
+        self.jvm = jvm
+    }
+}
 
 class Java: Language {
+    typealias OptionsType = JavaOptions
+    
     static let name = "Java"
     static let snippet = """
     class Playground {
@@ -10,12 +21,6 @@ class Java: Language {
         }
     }
     """
-
-    let jvms: [JVM]
-
-    init(_ jvms: [JVM]) {
-        self.jvms = jvms
-    }
 
     static func detect() async throws -> LanguageStatus {
         let decoder = PropertyListDecoder()
@@ -36,10 +41,30 @@ class Java: Language {
             return .available(Java(jvms!))
         }
     }
+    
+    
+    let jvms: [JVM]
+    let options: JavaOptions
 
-    private func detectClassName(source _: String) -> String {
-        // FIXME:
-        return ""
+    init(_ jvms: [JVM]) {
+        self.jvms = jvms
+        self.options = JavaOptions(jvm: jvms.first!)
+    }
+
+    func execute(code: String, terminal: TerminalLink) throws {
+        let filename = writeTemporaryFile(
+            ext: "java",
+            data: code.data(using: .utf8)!
+        )
+
+        terminal.startProcess(
+            executable: options.jvm.JVMHomePath + "/bin/java",
+            args: [filename]
+        )
+    }
+    
+    func optionsView() -> AnyView {
+        AnyView(JavaOptionsView(language: self))
     }
 }
 

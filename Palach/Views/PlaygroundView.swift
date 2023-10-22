@@ -2,9 +2,12 @@ import SwiftUI
 
 struct PlaygroundView: View {
     @State var languages: [LanguageOption: LanguageStatus]
+    @State var selectedLanguage: LanguageOption
+
     @State var code: String
     @State var selection: NSRange?
-    @State var selectedLanguage: LanguageOption
+    
+    @ObservedObject var terminalLink = TerminalLink()
 
     var body: some View {
         HSplitView {
@@ -17,14 +20,25 @@ struct PlaygroundView: View {
                         }
                     }
                 }
+            
+            SwiftUITerminal(terminalLink: terminalLink)
+                .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
+                .toolbar {
+                    ToolbarItemGroup {
+                        Button(action: start) { Image(systemName: "play.fill") }
 
-            if selectedLanguage == .rust, case let .available(lang) = languages[.rust] {
-                RustExecutionView(rust: lang as! Rust, code: $code)
-                    .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
-            } else if selectedLanguage == .java, case let .available(lang) = languages[.java] {
-                JavaExecutionView(java: lang as! Java, code: $code)
-                    .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
-            }
+                        Button(action: stop) { Image(systemName: "stop.fill") }
+
+                        Spacer()
+                        
+                        switch languages[selectedLanguage]! {
+                        case .available(let lang):
+                            lang.optionsView()
+                        case .unavailable:
+                            Text("No valid toolchains available, sad story")
+                        }
+                    }
+                }
         }
     }
 
@@ -37,5 +51,18 @@ struct PlaygroundView: View {
 
     func selectLanguage(_ language: LanguageOption) {
         code = language.type().snippet
+    }
+    
+    func start() {
+        if case .available(let lang) = languages[selectedLanguage] {
+            terminalLink.reset()
+            terminalLink.feed(text: "Running...\n\r")
+            /* TODO: Handle errors */
+            try! lang.execute(code: code, terminal: terminalLink)
+        }
+    }
+    
+    func stop() {
+        terminalLink.terminate()
     }
 }

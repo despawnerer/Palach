@@ -1,6 +1,21 @@
 import Foundation
+import SwiftUI
+
+class RustOptions: ObservableObject {
+    @Published var toolchain: RustToolchain
+    @Published var mode: RustMode
+    @Published var edition: RustEdition
+    
+    init(toolchain: RustToolchain, mode: RustMode, edition: RustEdition) {
+        self.toolchain = toolchain
+        self.mode = mode
+        self.edition = edition
+    }
+}
 
 class Rust: Language {
+    typealias OptionsType = RustOptions
+    
     static let RUSTUP = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent(".cargo")
         .appendingPathComponent("bin")
@@ -17,12 +32,6 @@ class Rust: Language {
     }
     """
 
-    let toolchains: [RustToolchain]
-
-    init(_ toolchains: [RustToolchain]) {
-        self.toolchains = toolchains
-    }
-
     static func detect() async throws -> LanguageStatus {
         let result = try await executeCommand(
             Rust.RUSTUP,
@@ -35,12 +44,59 @@ class Rust: Language {
             .filter { $0.count > 0 }
             .map { $0.components(separatedBy: " ")[0] }
             .map { RustToolchain(name: $0) }
+        
+        print(toolchains)
 
         if toolchains.isEmpty {
             return .unavailable
         } else {
             return .available(Rust(toolchains))
         }
+    }
+    
+    let toolchains: [RustToolchain]
+    let options: RustOptions
+
+    init(_ toolchains: [RustToolchain]) {
+        self.toolchains = toolchains
+        self.options = RustOptions(
+            toolchain: toolchains.first!,
+            mode: Rust.defaultMode,
+            edition: Rust.defaultEdition
+        )
+    }
+
+    func execute(code: String, terminal: TerminalLink) throws {
+        let filename = writeTemporaryFile(
+            ext: "rs",
+            data: code.data(using: .utf8)!
+        )
+
+        let modeArgs = options.mode == .debug ? "-C debuginfo=2 -C opt-level=0" : "-C debuginfo=0 -C opt-level=3"
+
+        let args = [
+            "-c",
+            "cd \(FileManager.default.temporaryDirectory.path) && \(Rust.RUSTUP) run \(options.toolchain.name) rustc --edition \(options.edition.rawValue) \(modeArgs) \(filename) && \(filename.dropLast(3))",
+        ]
+
+        var environment: [String] = []
+        environment.append("LANG=en_US.UTF-8")
+        let currentEnv = ProcessInfo.processInfo.environment
+        for variable in ["LOGNAME", "USER", "DISPLAY", "LC_TYPE", "USER", "HOME", "PATH"] {
+            if currentEnv.keys.contains(variable) {
+                environment.append("\(variable)=\(currentEnv[variable]!)")
+            }
+        }
+
+        terminal.startProcess(
+            executable: "/bin/sh",
+            args: args,
+            environment: environment
+        )
+    }
+    
+    func optionsView() -> AnyView {
+        AnyView(RustOptionsView(language: self))
     }
 }
 

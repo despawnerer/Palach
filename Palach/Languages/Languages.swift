@@ -7,7 +7,7 @@ enum LanguageOption: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
-    func type() -> Language.Type {
+    func type() -> any Language.Type {
         switch self {
         case .java:
             return Java.self
@@ -18,14 +18,19 @@ enum LanguageOption: String, CaseIterable, Identifiable {
 }
 
 protocol Language {
+    associatedtype OptionsType
+    
     static var name: String { get }
     static var snippet: String { get }
 
     static func detect() async throws -> LanguageStatus
+        
+    func optionsView() -> AnyView
+    func execute(code: String, terminal: TerminalLink) throws
 }
 
 enum LanguageStatus {
-    case available(Language)
+    case available(any Language)
     case unavailable
 }
 
