@@ -42,7 +42,7 @@ func executeCommand(_ execute: String,
                     workingDirectory: URL = CurrentProcessState.getCurrentWorkingDirectory()) async throws -> ExecutionResult
 {
     let command = try Command(execute, arguments: arguments, environment: environment, workingDirectory: workingDirectory)
-    let procInterface = ProcessInterface(command: command)
+    let procInterface = ProcessInterface(command: command, stdout: .active(.unparsedRaw), stderr: .active(.unparsedRaw))
     try await procInterface.launch()
     // add the stdout task
     var stdoutBlob = Data()
