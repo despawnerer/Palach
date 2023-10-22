@@ -2,7 +2,7 @@ import SwiftUI
 
 struct RustOptionsView: View {
     let rust: Rust
-    
+
     @ObservedObject var options: RustOptions
 
     var body: some View {
@@ -26,7 +26,7 @@ struct RustOptionsView: View {
     }
 
     init(language: Rust) {
-        self.rust = language
-        self.options = language.options
+        rust = language
+        options = language.options
     }
 }

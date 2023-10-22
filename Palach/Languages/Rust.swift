@@ -5,7 +5,7 @@ class RustOptions: ObservableObject {
     @Published var toolchain: RustToolchain
     @Published var mode: RustMode
     @Published var edition: RustEdition
-    
+
     init(toolchain: RustToolchain, mode: RustMode, edition: RustEdition) {
         self.toolchain = toolchain
         self.mode = mode
@@ -15,7 +15,7 @@ class RustOptions: ObservableObject {
 
 class Rust: Language {
     typealias OptionsType = RustOptions
-    
+
     static let RUSTUP = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent(".cargo")
         .appendingPathComponent("bin")
@@ -44,7 +44,7 @@ class Rust: Language {
             .filter { $0.count > 0 }
             .map { $0.components(separatedBy: " ")[0] }
             .map { RustToolchain(name: $0) }
-        
+
         print(toolchains)
 
         if toolchains.isEmpty {
@@ -53,13 +53,13 @@ class Rust: Language {
             return .available(Rust(toolchains))
         }
     }
-    
+
     let toolchains: [RustToolchain]
     let options: RustOptions
 
     init(_ toolchains: [RustToolchain]) {
         self.toolchains = toolchains
-        self.options = RustOptions(
+        options = RustOptions(
             toolchain: toolchains.first!,
             mode: Rust.defaultMode,
             edition: Rust.defaultEdition
@@ -94,7 +94,7 @@ class Rust: Language {
             environment: environment
         )
     }
-    
+
     func optionsView() -> AnyView {
         AnyView(RustOptionsView(language: self))
     }

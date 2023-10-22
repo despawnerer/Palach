@@ -6,7 +6,7 @@ struct PlaygroundView: View {
 
     @State var code: String
     @State var selection: NSRange?
-    
+
     @ObservedObject var terminalLink = TerminalLink()
 
     var body: some View {
@@ -20,7 +20,7 @@ struct PlaygroundView: View {
                         }
                     }
                 }
-            
+
             SwiftUITerminal(terminalLink: terminalLink)
                 .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
                 .toolbar {
@@ -30,9 +30,9 @@ struct PlaygroundView: View {
                         Button(action: stop) { Image(systemName: "stop.fill") }
 
                         Spacer()
-                        
+
                         switch languages[selectedLanguage]! {
-                        case .available(let lang):
+                        case let .available(lang):
                             lang.optionsView()
                         case .unavailable:
                             Text("No valid toolchains available, sad story")
@@ -52,16 +52,16 @@ struct PlaygroundView: View {
     func selectLanguage(_ language: LanguageOption) {
         code = language.type().snippet
     }
-    
+
     func start() {
-        if case .available(let lang) = languages[selectedLanguage] {
+        if case let .available(lang) = languages[selectedLanguage] {
             terminalLink.reset()
             terminalLink.feed(text: "Running...\n\r")
             /* TODO: Handle errors */
             try! lang.execute(code: code, terminal: terminalLink)
         }
     }
-    
+
     func stop() {
         terminalLink.terminate()
     }

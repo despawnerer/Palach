@@ -4,7 +4,7 @@ import SwiftUI
 
 class JavaOptions: ObservableObject {
     @Published var jvm: JVM
-    
+
     init(jvm: JVM) {
         self.jvm = jvm
     }
@@ -12,7 +12,7 @@ class JavaOptions: ObservableObject {
 
 class Java: Language {
     typealias OptionsType = JavaOptions
-    
+
     static let name = "Java"
     static let snippet = """
     class Playground {
@@ -41,14 +41,13 @@ class Java: Language {
             return .available(Java(jvms!))
         }
     }
-    
-    
+
     let jvms: [JVM]
     let options: JavaOptions
 
     init(_ jvms: [JVM]) {
         self.jvms = jvms
-        self.options = JavaOptions(jvm: jvms.first!)
+        options = JavaOptions(jvm: jvms.first!)
     }
 
     func execute(code: String, terminal: TerminalLink) throws {
@@ -62,7 +61,7 @@ class Java: Language {
             args: [filename]
         )
     }
-    
+
     func optionsView() -> AnyView {
         AnyView(JavaOptionsView(language: self))
     }

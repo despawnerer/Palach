@@ -4,7 +4,7 @@ struct JavaOptionsView: View {
     let java: Java
 
     @ObservedObject var options: JavaOptions
-    
+
     var body: some View {
         Picker("", selection: $options.jvm) {
             ForEach(java.jvms) { jvm in
@@ -14,7 +14,7 @@ struct JavaOptionsView: View {
     }
 
     init(language: Java) {
-        self.java = language
-        self.options = language.options
+        java = language
+        options = language.options
     }
 }

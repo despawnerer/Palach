@@ -19,12 +19,12 @@ enum LanguageOption: String, CaseIterable, Identifiable {
 
 protocol Language {
     associatedtype OptionsType
-    
+
     static var name: String { get }
     static var snippet: String { get }
 
     static func detect() async throws -> LanguageStatus
-        
+
     func optionsView() -> AnyView
     func execute(code: String, terminal: TerminalLink) throws
 }
