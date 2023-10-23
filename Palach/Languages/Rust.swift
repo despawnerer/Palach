@@ -45,8 +45,6 @@ class Rust: Language {
             .map { $0.components(separatedBy: " ")[0] }
             .map { RustToolchain(name: $0) }
 
-        print(toolchains)
-
         if toolchains.isEmpty {
             return .unavailable
         } else {
