@@ -18,3 +18,12 @@ struct JavaOptionsView: View {
         options = language.options
     }
 }
+
+
+#Preview {
+    Text("Preview")
+        .frame(width: 400, height: 50)
+        .toolbar {
+            JavaOptionsView(language: Java([JVM(JVMPlatformVersion: "abc", JVMEnabled: true, JVMHomePath: "abc", JVMName: "Zulu 11.66.19")]))
+        }
+}

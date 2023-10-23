@@ -30,3 +30,11 @@ struct RustOptionsView: View {
         options = language.options
     }
 }
+
+#Preview {
+    Text("Preview")
+        .frame(width: 700, height: 50)
+        .toolbar {
+            RustOptionsView(language: Rust([RustToolchain(name: "stable-x86_64-apple-darwin")]))
+        }
+}
