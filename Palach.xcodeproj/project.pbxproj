@@ -696,7 +696,7 @@
 			repositoryURL = "https://github.com/krzyzanowskim/STTextView";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.8.19;
+				minimumVersion = 0.8.21;
 			};
 		};
 		37205A5D2ADFE4ED00B31074 /* XCRemoteSwiftPackageReference "STTextView-Plugin-Neon" */ = {

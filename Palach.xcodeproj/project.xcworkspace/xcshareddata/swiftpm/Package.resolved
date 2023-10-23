@@ -28,12 +28,21 @@
       }
     },
     {
+      "identity" : "sttextkitplus",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/krzyzanowskim/STTextKitPlus",
+      "state" : {
+        "revision" : "c603aa0d0a64a3594da9396de3b2db1cbbb27ec7",
+        "version" : "0.0.1"
+      }
+    },
+    {
       "identity" : "sttextview",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/STTextView.git",
       "state" : {
-        "revision" : "523363516b06e92dddfc2e1d5e73aa2920758b35",
-        "version" : "0.8.19"
+        "revision" : "27f2f36af4b318a3d0ce0226d0690989d7d601c3",
+        "version" : "0.8.21"
       }
     },
     {
