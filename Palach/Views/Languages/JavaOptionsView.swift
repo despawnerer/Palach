@@ -19,7 +19,6 @@ struct JavaOptionsView: View {
     }
 }
 
-
 #Preview {
     Text("Preview")
         .frame(width: 400, height: 50)

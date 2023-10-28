@@ -30,31 +30,7 @@ protocol Language {
 }
 
 enum LanguageStatus {
+    case initial
     case available(any Language)
     case unavailable
-}
-
-enum LanguageDetectionState {
-    case initial
-    case detected([LanguageOption: LanguageStatus])
-
-    static func detect() async throws -> LanguageDetectionState {
-        try await withThrowingTaskGroup(of: (LanguageOption, LanguageStatus).self) { group in
-            for option in LanguageOption.allCases {
-                group.addTask {
-                    let status = try await option.type().detect()
-                    return (option, status)
-                }
-            }
-
-            var languages = [LanguageOption: LanguageStatus]()
-
-            for try await(option, status) in group {
-                languages[option] = status
-            }
-
-            /* TODO: Add a separate state for when nothing is available? */
-            return .detected(languages)
-        }
-    }
 }

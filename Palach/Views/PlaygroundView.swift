@@ -21,36 +21,41 @@ struct PlaygroundView: View {
                     }
                 }
 
-            SwiftUITerminal(terminalLink: terminalLink)
-                .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
-                .toolbar {
-                    ToolbarItemGroup {
+            switch languages[selectedLanguage]! {
+            case .initial:
+                ProgressView()
+                    .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
+                    .task {
+                        languages[selectedLanguage] = try! await selectedLanguage.type().detect()
+                    }
+            case let .available(lang):
+                SwiftUITerminal(terminalLink: terminalLink)
+                    .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
+                    .toolbar {
                         Button(action: start) { Image(systemName: "play.fill") }
 
                         Button(action: stop) { Image(systemName: "stop.fill") }
 
                         Spacer()
 
-                        switch languages[selectedLanguage]! {
-                        case let .available(lang):
-                            lang.optionsView()
-                        case .unavailable:
-                            Text("No valid toolchains available, sad story")
-                        }
+                        lang.optionsView()
                     }
-                }
+            case .unavailable:
+                Text("No valid toolchains available, sad story")
+                    .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
+            }
         }
     }
 
-    init(_ languages: [LanguageOption: LanguageStatus]) {
-        let initialLanguage = languages.keys.first!
-        self.languages = languages
+    init() {
+        let initialLanguage = LanguageOption.allCases.first!
+        languages = Dictionary(uniqueKeysWithValues: LanguageOption.allCases.map { ($0, .initial) })
         selectedLanguage = initialLanguage
         code = initialLanguage.type().snippet
     }
 
-    func selectLanguage(_ language: LanguageOption) {
-        code = language.type().snippet
+    func selectLanguage(_: LanguageOption) {
+        code = selectedLanguage.type().snippet
     }
 
     func start() {
