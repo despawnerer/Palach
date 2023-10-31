@@ -84,7 +84,12 @@ struct TextViewRepresentable: NSViewRepresentable {
     func updateNSView(_ scrollView: NSScrollView, context: Context) {
         let textView = scrollView.documentView as! STTextView
 
-        context.coordinator.isUpdating = true
+        guard !context.coordinator.isReactingToChangeFromInternalView else {
+            context.coordinator.isReactingToChangeFromInternalView = false
+            return
+        }
+
+        context.coordinator.isUpdatingFromSwiftUI = true
 
         textView.setAttributedString(NSAttributedString(styledAttributedString(textView.typingAttributes)))
 
@@ -98,7 +103,7 @@ struct TextViewRepresentable: NSViewRepresentable {
 
         textView.font = .monospacedSystemFont(ofSize: NSFont.systemFontSize, weight: .regular)
 
-        context.coordinator.isUpdating = false
+        context.coordinator.isUpdatingFromSwiftUI = false
     }
 
     func makeCoordinator() -> TextCoordinator {
@@ -123,14 +128,15 @@ struct TextViewRepresentable: NSViewRepresentable {
 
     class TextCoordinator: STTextViewDelegate {
         var parent: TextViewRepresentable
-        var isUpdating: Bool = false
+        var isUpdatingFromSwiftUI: Bool = false
+        var isReactingToChangeFromInternalView: Bool = false
 
         init(parent: TextViewRepresentable) {
             self.parent = parent
         }
 
         func textViewDidChangeText(_ notification: Notification) {
-            guard !isUpdating else {
+            guard !isUpdatingFromSwiftUI else {
                 return
             }
 
@@ -138,11 +144,12 @@ struct TextViewRepresentable: NSViewRepresentable {
                 return
             }
 
+            isReactingToChangeFromInternalView = true
             parent.text = textView.attributedString().string
         }
 
         func textViewDidChangeSelection(_ notification: Notification) {
-            guard !isUpdating else {
+            guard !isUpdatingFromSwiftUI else {
                 return
             }
 
@@ -150,6 +157,7 @@ struct TextViewRepresentable: NSViewRepresentable {
                 return
             }
 
+            isReactingToChangeFromInternalView = true
             parent.selection = textView.selectedRange()
         }
     }
