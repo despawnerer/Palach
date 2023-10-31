@@ -2,17 +2,7 @@ import Foundation
 import SwiftSlash
 import SwiftUI
 
-class JavaOptions: ObservableObject {
-    @Published var jvm: JVM
-
-    init(jvm: JVM) {
-        self.jvm = jvm
-    }
-}
-
-class Java: Language {
-    typealias OptionsType = JavaOptions
-
+class Java: Language, ObservableObject {
     static let name = "Java"
     static let snippet = """
     class Playground {
@@ -42,12 +32,12 @@ class Java: Language {
         }
     }
 
-    let jvms: [JVM]
-    let options: JavaOptions
+    @Published var jvms: [JVM]
+    @Published var jvm: JVM
 
     init(_ jvms: [JVM]) {
         self.jvms = jvms
-        options = JavaOptions(jvm: jvms.first!)
+        jvm = jvms.first!
     }
 
     func execute(code: String, terminal: TerminalLink) throws {
@@ -57,7 +47,7 @@ class Java: Language {
         )
 
         terminal.startProcess(
-            executable: options.jvm.JVMHomePath + "/bin/java",
+            executable: jvm.JVMHomePath + "/bin/java",
             args: [filename]
         )
     }

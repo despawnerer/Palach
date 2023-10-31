@@ -1,24 +1,22 @@
 import SwiftUI
 
 struct RustOptionsView: View {
-    let rust: Rust
-
-    @ObservedObject var options: RustOptions
+    @ObservedObject var rust: Rust
 
     var body: some View {
-        Picker("", selection: $options.toolchain) {
+        Picker("", selection: $rust.toolchain) {
             ForEach(rust.toolchains) { toolchain in
                 Text(toolchain.name).tag(toolchain)
             }
         }
 
-        Picker("", selection: $options.edition) {
+        Picker("", selection: $rust.edition) {
             ForEach(RustEdition.allCases) { edition in
                 Text(edition.rawValue).tag(edition)
             }
         }
 
-        Picker("", selection: $options.mode) {
+        Picker("", selection: $rust.mode) {
             ForEach(RustMode.allCases) { mode in
                 Text(mode.rawValue).tag(mode)
             }
@@ -27,7 +25,6 @@ struct RustOptionsView: View {
 
     init(language: Rust) {
         rust = language
-        options = language.options
     }
 }
 

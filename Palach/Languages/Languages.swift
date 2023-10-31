@@ -18,8 +18,6 @@ enum LanguageOption: String, CaseIterable, Identifiable {
 }
 
 protocol Language {
-    associatedtype OptionsType
-
     static var name: String { get }
     static var snippet: String { get }
 

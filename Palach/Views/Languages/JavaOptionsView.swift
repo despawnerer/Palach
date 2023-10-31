@@ -1,12 +1,11 @@
 import SwiftUI
 
 struct JavaOptionsView: View {
-    let java: Java
+    @ObservedObject var java: Java
 
-    @ObservedObject var options: JavaOptions
 
     var body: some View {
-        Picker("", selection: $options.jvm) {
+        Picker("", selection: $java.jvm) {
             ForEach(java.jvms) { jvm in
                 Text(jvm.JVMName).tag(jvm as JVM)
             }
@@ -15,7 +14,6 @@ struct JavaOptionsView: View {
 
     init(language: Java) {
         java = language
-        options = language.options
     }
 }
 

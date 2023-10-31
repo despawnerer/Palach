@@ -1,21 +1,7 @@
 import Foundation
 import SwiftUI
 
-class RustOptions: ObservableObject {
-    @Published var toolchain: RustToolchain
-    @Published var mode: RustMode
-    @Published var edition: RustEdition
-
-    init(toolchain: RustToolchain, mode: RustMode, edition: RustEdition) {
-        self.toolchain = toolchain
-        self.mode = mode
-        self.edition = edition
-    }
-}
-
-class Rust: Language {
-    typealias OptionsType = RustOptions
-
+class Rust: Language, ObservableObject {
     static let RUSTUP = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent(".cargo")
         .appendingPathComponent("bin")
@@ -52,16 +38,16 @@ class Rust: Language {
         }
     }
 
-    let toolchains: [RustToolchain]
-    let options: RustOptions
+    @Published var toolchains: [RustToolchain]
+    @Published var toolchain: RustToolchain
+    @Published var mode: RustMode
+    @Published var edition: RustEdition
 
     init(_ toolchains: [RustToolchain]) {
         self.toolchains = toolchains
-        options = RustOptions(
-            toolchain: toolchains.first!,
-            mode: Rust.defaultMode,
-            edition: Rust.defaultEdition
-        )
+        toolchain = toolchains.first!
+        mode = Rust.defaultMode
+        edition = Rust.defaultEdition
     }
 
     func execute(code: String, terminal: TerminalLink) throws {
@@ -70,11 +56,11 @@ class Rust: Language {
             data: code.data(using: .utf8)!
         )
 
-        let modeArgs = options.mode == .debug ? "-C debuginfo=2 -C opt-level=0" : "-C debuginfo=0 -C opt-level=3"
+        let modeArgs = mode == .debug ? "-C debuginfo=2 -C opt-level=0" : "-C debuginfo=0 -C opt-level=3"
 
         let args = [
             "-c",
-            "cd \(FileManager.default.temporaryDirectory.path) && \(Rust.RUSTUP) run \(options.toolchain.name) rustc --edition \(options.edition.rawValue) \(modeArgs) \(filename) && \(filename.dropLast(3))",
+            "cd \(FileManager.default.temporaryDirectory.path) && \(Rust.RUSTUP) run \(toolchain.name) rustc --edition \(edition.rawValue) \(modeArgs) \(filename) && \(filename.dropLast(3))",
         ]
 
         var environment: [String] = []
