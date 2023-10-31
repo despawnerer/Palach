@@ -1,6 +1,3 @@
-//  Created by Marcin Krzyzanowski
-//  https://github.com/krzyzanowskim/STTextView/blob/main/LICENSE.md
-
 import Foundation
 import NeonPlugin
 import STTextView
@@ -8,15 +5,13 @@ import SwiftUI
 import TextFormation
 import TextFormationPlugin
 
-public struct CodeEditorView: SwiftUI.View {
-    @Environment(\.colorScheme) private var colorScheme
-    @Binding private var text: String
-    @Binding private var selection: NSRange?
+struct CodeEditorView: SwiftUI.View {
+    @Environment(\.colorScheme) var colorScheme
 
-    /// Create a text edit view with a certain text that uses a certain options.
-    /// - Parameters:
-    ///   - text: The attributed string content
-    public init(
+    @Binding var text: String
+    @Binding var selection: NSRange?
+
+    init(
         text: Binding<String>,
         selection: Binding<NSRange?> = .constant(nil)
     ) {
@@ -24,7 +19,7 @@ public struct CodeEditorView: SwiftUI.View {
         _selection = selection
     }
 
-    public var body: some View {
+    var body: some View {
         TextViewRepresentable(
             text: $text,
             selection: $selection
@@ -33,13 +28,13 @@ public struct CodeEditorView: SwiftUI.View {
     }
 }
 
-private struct TextViewRepresentable: NSViewRepresentable {
+struct TextViewRepresentable: NSViewRepresentable {
     @Environment(\.isEnabled) private var isEnabled
     @Environment(\.font) private var font
     @Environment(\.lineSpacing) private var lineSpacing
 
-    @Binding private var text: String
-    @Binding private var selection: NSRange?
+    @Binding var text: String
+    @Binding var selection: NSRange?
 
     init(text: Binding<String>, selection: Binding<NSRange?>) {
         _text = text
@@ -51,7 +46,6 @@ private struct TextViewRepresentable: NSViewRepresentable {
         let scrollView = NSScrollView()
         scrollView.documentView = textView
 
-        textView.delegate = context.coordinator
         textView.highlightSelectedLine = true
         textView.widthTracksTextView = true
         textView.setSelectedRange(NSRange())
@@ -60,9 +54,7 @@ private struct TextViewRepresentable: NSViewRepresentable {
         textView.isIncrementalSearchingEnabled = true
         textView.textFinder.incrementalSearchingShouldDimContentView = true
 
-        context.coordinator.isUpdating = true
         textView.setAttributedString(NSAttributedString(styledAttributedString(textView.typingAttributes)))
-        context.coordinator.isUpdating = false
 
         // Line numbers: Should be after setting font
         let rulerView = STLineNumberRulerView(textView: textView)
@@ -84,22 +76,17 @@ private struct TextViewRepresentable: NSViewRepresentable {
             )
         ))
 
+        textView.delegate = context.coordinator
+
         return scrollView
     }
 
     func updateNSView(_ scrollView: NSScrollView, context: Context) {
-        context.coordinator.parent = self
-
         let textView = scrollView.documentView as! STTextView
 
-        do {
-            context.coordinator.isUpdating = true
-            if context.coordinator.isDidChangeText == false {
-                textView.setAttributedString(NSAttributedString(styledAttributedString(textView.typingAttributes)))
-            }
-            context.coordinator.isUpdating = false
-            context.coordinator.isDidChangeText = false
-        }
+        context.coordinator.isUpdating = true
+
+        textView.setAttributedString(NSAttributedString(styledAttributedString(textView.typingAttributes)))
 
         if textView.isEditable != isEnabled {
             textView.isEditable = isEnabled
@@ -109,8 +96,9 @@ private struct TextViewRepresentable: NSViewRepresentable {
             textView.isSelectable = isEnabled
         }
 
-        // FIXME: Not entirely sure what this does?
         textView.font = .monospacedSystemFont(ofSize: NSFont.systemFontSize, weight: .regular)
+
+        context.coordinator.isUpdating = false
     }
 
     func makeCoordinator() -> TextCoordinator {
@@ -136,36 +124,33 @@ private struct TextViewRepresentable: NSViewRepresentable {
     class TextCoordinator: STTextViewDelegate {
         var parent: TextViewRepresentable
         var isUpdating: Bool = false
-        var isDidChangeText: Bool = false
-        var enqueuedValue: AttributedString?
 
         init(parent: TextViewRepresentable) {
             self.parent = parent
         }
 
         func textViewDidChangeText(_ notification: Notification) {
+            guard !isUpdating else {
+                return
+            }
+
             guard let textView = notification.object as? STTextView else {
                 return
             }
 
-            if !isUpdating {
-                let newTextValue = AttributedString(textView.attributedString())
-                DispatchQueue.main.async {
-                    self.isDidChangeText = true
-                    self.parent.text = String(newTextValue.characters[...])
-                }
-            }
+            parent.text = textView.attributedString().string
         }
 
         func textViewDidChangeSelection(_ notification: Notification) {
+            guard !isUpdating else {
+                return
+            }
+
             guard let textView = notification.object as? STTextView else {
                 return
             }
 
-            Task { @MainActor in
-                self.isDidChangeText = true
-                self.parent.selection = textView.selectedRange()
-            }
+            parent.selection = textView.selectedRange()
         }
     }
 }

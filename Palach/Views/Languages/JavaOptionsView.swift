@@ -3,7 +3,6 @@ import SwiftUI
 struct JavaOptionsView: View {
     @ObservedObject var java: Java
 
-
     var body: some View {
         Picker("", selection: $java.jvm) {
             ForEach(java.jvms) { jvm in

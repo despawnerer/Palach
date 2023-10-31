@@ -54,8 +54,8 @@ struct PlaygroundView: View {
         code = initialLanguage.type().snippet
     }
 
-    func selectLanguage(_: LanguageOption) {
-        code = selectedLanguage.type().snippet
+    func selectLanguage(_ value: LanguageOption) {
+        code = value.type().snippet
     }
 
     func start() {
