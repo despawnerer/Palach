@@ -1,10 +1,9 @@
 import SwiftUI
 
 struct PlaygroundView: View {
-    @State var languages: [LanguageOption: LanguageStatus]
-    @State var selectedLanguage: LanguageOption
-
-    @State var code: String
+    @State var selectedLanguage = LanguageOption.allCases.first!
+    @State var languageStatus: LanguageStatus = .initial
+    @State var code = LanguageOption.allCases.first!.type().snippet
     @State var selection: NSRange?
 
     @ObservedObject var terminalState = TerminalState()
@@ -14,20 +13,17 @@ struct PlaygroundView: View {
             CodeEditorView(text: $code, selection: $selection)
                 .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
                 .toolbar {
-                    Picker("", selection: $selectedLanguage.onChange(selectLanguage)) {
-                        ForEach(Array(languages.keys)) { option in
+                    Picker("", selection: $selectedLanguage) {
+                        ForEach(LanguageOption.allCases) { option in
                             Text(option.rawValue).tag(option)
                         }
                     }
                 }
 
-            switch languages[selectedLanguage]! {
+            switch languageStatus {
             case .initial:
                 ProgressView()
                     .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
-                    .task {
-                        languages[selectedLanguage] = try! await selectedLanguage.type().detect()
-                    }
             case let .available(lang):
                 SwiftUITerminal(terminalState: terminalState)
                     .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
@@ -47,13 +43,8 @@ struct PlaygroundView: View {
                     .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
             }
         }
-    }
-
-    init() {
-        let initialLanguage = LanguageOption.allCases.first!
-        languages = Dictionary(uniqueKeysWithValues: LanguageOption.allCases.map { ($0, .initial) })
-        selectedLanguage = initialLanguage
-        code = initialLanguage.type().snippet
+        .onAppear(perform: updateLanguagueState)
+        .onChange(of: selectedLanguage, perform: onSelectedLanguageChange)
     }
 
     func selectLanguage(_ value: LanguageOption) {
@@ -61,7 +52,7 @@ struct PlaygroundView: View {
     }
 
     func start() {
-        if case let .available(lang) = languages[selectedLanguage] {
+        if case let .available(lang) = languageStatus {
             terminalState.reset()
             terminalState.feed(text: "Running...\n\r")
             /* TODO: Handle errors */
@@ -71,5 +62,17 @@ struct PlaygroundView: View {
 
     func stop() {
         terminalState.terminateProcess()
+    }
+
+    func updateLanguagueState() {
+        Task {
+            languageStatus = try! await selectedLanguage.type().detect()
+        }
+    }
+
+    func onSelectedLanguageChange(_ newValue: LanguageOption) {
+        terminalState.reset()
+        updateLanguagueState()
+        code = newValue.type().snippet
     }
 }
