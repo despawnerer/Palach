@@ -10,8 +10,9 @@ enum TerminalAction {
     case feed(text: String)
 }
 
-class TerminalLink: ObservableObject {
+class TerminalState: ObservableObject {
     @Published var action: TerminalAction?
+    @Published var isRunning: Bool = false
 
     func reset() {
         action = .reset
@@ -21,7 +22,7 @@ class TerminalLink: ObservableObject {
         action = .startProcess(executable: executable, args: args, environment: environment, execName: execName)
     }
 
-    func terminate() {
+    func terminateProcess() {
         action = .terminate
     }
 
@@ -30,8 +31,9 @@ class TerminalLink: ObservableObject {
     }
 }
 
-class SwiftUITerminalViewController: NSViewController, CustomLocalProcessTerminalViewDelegate {
+class SwiftUITerminalViewController: NSViewController {
     var terminalView: CustomLocalProcessTerminalView?
+    var delegate: CustomLocalProcessTerminalViewDelegate?
 
     override func loadView() {
         view = NSView()
@@ -67,40 +69,28 @@ class SwiftUITerminalViewController: NSViewController, CustomLocalProcessTermina
 
         terminalView = CustomLocalProcessTerminalView(frame: view.frame)
         terminalView!.configureNativeColors()
-        terminalView!.processDelegate = self
+        terminalView!.processDelegate = delegate
         view.addSubview(terminalView!)
-    }
-
-    func sizeChanged(source _: CustomLocalProcessTerminalView, newCols _: Int, newRows _: Int) {
-        /* Don't care */
-    }
-
-    func setTerminalTitle(source _: CustomLocalProcessTerminalView, title _: String) {
-        /* Don't care */
-    }
-
-    func hostCurrentDirectoryUpdate(source _: SwiftTerm.TerminalView, directory _: String?) {
-        /* Don't care */
-    }
-
-    func processTerminated(source _: SwiftTerm.TerminalView, exitCode: Int32?) {
-        terminalView?.feed(text: "\r\n(Terminated with status \(exitCode ?? -1))\r\n")
     }
 }
 
 struct SwiftUITerminal: NSViewControllerRepresentable {
     typealias NSViewControllerType = SwiftUITerminalViewController
 
-    var terminalLink: TerminalLink
+    var terminalState: TerminalState
 
-    class Coordinator {
-        var terminalLink: TerminalLink? {
+    class Coordinator: CustomLocalProcessTerminalViewDelegate {
+        var terminalState: TerminalState? {
             didSet {
-                cancelable = terminalLink?.$action.sink(receiveValue: { action in
+                cancelable = terminalState?.$action.sink(receiveValue: { action in
                     guard let action = action else {
                         return
                     }
                     self.viewController?.action(action)
+
+                    if case .startProcess = action {
+                        self.terminalState?.isRunning = true
+                    }
                 })
             }
         }
@@ -108,18 +98,37 @@ struct SwiftUITerminal: NSViewControllerRepresentable {
         var viewController: SwiftUITerminalViewController?
 
         private var cancelable: AnyCancellable?
+
+        func sizeChanged(source _: CustomLocalProcessTerminalView, newCols _: Int, newRows _: Int) {
+            /* Don't care */
+        }
+
+        func setTerminalTitle(source _: CustomLocalProcessTerminalView, title _: String) {
+            /* Don't care */
+        }
+
+        func hostCurrentDirectoryUpdate(source _: SwiftTerm.TerminalView, directory _: String?) {
+            /* Don't care */
+        }
+
+        func processTerminated(source: SwiftTerm.TerminalView, exitCode: Int32?) {
+            source.feed(text: "\r\n(Terminated with status \(exitCode ?? -1))\r\n")
+            terminalState?.isRunning = false
+        }
     }
 
     func makeCoordinator() -> Coordinator {
         return Coordinator()
     }
 
-    func makeNSViewController(context _: Context) -> SwiftUITerminalViewController {
-        return SwiftUITerminalViewController()
+    func makeNSViewController(context: Context) -> SwiftUITerminalViewController {
+        let controller = SwiftUITerminalViewController()
+        controller.delegate = context.coordinator
+        return controller
     }
 
     func updateNSViewController(_ nsViewController: SwiftUITerminalViewController, context: Context) {
         context.coordinator.viewController = nsViewController
-        context.coordinator.terminalLink = terminalLink
+        context.coordinator.terminalState = terminalState
     }
 }

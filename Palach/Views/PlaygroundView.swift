@@ -7,7 +7,7 @@ struct PlaygroundView: View {
     @State var code: String
     @State var selection: NSRange?
 
-    @ObservedObject var terminalLink = TerminalLink()
+    @ObservedObject var terminalState = TerminalState()
 
     var body: some View {
         HSplitView {
@@ -29,12 +29,14 @@ struct PlaygroundView: View {
                         languages[selectedLanguage] = try! await selectedLanguage.type().detect()
                     }
             case let .available(lang):
-                SwiftUITerminal(terminalLink: terminalLink)
+                SwiftUITerminal(terminalState: terminalState)
                     .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
                     .toolbar {
-                        Button(action: start) { Image(systemName: "play.fill") }
-
-                        Button(action: stop) { Image(systemName: "stop.fill") }
+                        if terminalState.isRunning {
+                            Button(action: stop) { Image(systemName: "stop.fill") }
+                        } else {
+                            Button(action: start) { Image(systemName: "play.fill") }
+                        }
 
                         Spacer()
 
@@ -60,14 +62,14 @@ struct PlaygroundView: View {
 
     func start() {
         if case let .available(lang) = languages[selectedLanguage] {
-            terminalLink.reset()
-            terminalLink.feed(text: "Running...\n\r")
+            terminalState.reset()
+            terminalState.feed(text: "Running...\n\r")
             /* TODO: Handle errors */
-            try! lang.execute(code: code, terminal: terminalLink)
+            try! lang.execute(code: code, terminal: terminalState)
         }
     }
 
     func stop() {
-        terminalLink.terminate()
+        terminalState.terminateProcess()
     }
 }

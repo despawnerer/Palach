@@ -40,7 +40,7 @@ class Java: Language, ObservableObject {
         jvm = jvms.first!
     }
 
-    func execute(code: String, terminal: TerminalLink) throws {
+    func execute(code: String, terminal: TerminalState) throws {
         let filename = writeTemporaryFile(
             ext: "java",
             data: code.data(using: .utf8)!

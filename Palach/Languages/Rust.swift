@@ -50,7 +50,7 @@ class Rust: Language, ObservableObject {
         edition = Rust.defaultEdition
     }
 
-    func execute(code: String, terminal: TerminalLink) throws {
+    func execute(code: String, terminal: TerminalState) throws {
         let filename = writeTemporaryFile(
             ext: "rs",
             data: code.data(using: .utf8)!

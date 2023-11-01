@@ -24,7 +24,7 @@ protocol Language {
     static func detect() async throws -> LanguageStatus
 
     func optionsView() -> AnyView
-    func execute(code: String, terminal: TerminalLink) throws
+    func execute(code: String, terminal: TerminalState) throws
 }
 
 enum LanguageStatus {
